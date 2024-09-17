@@ -1,6 +1,7 @@
-from calculate_macros import get_nutrition_plan, split_macros_by_meal
-from scrape_menu import scrape_menu
+from calculate_macros import get_nutrition_plan
+from calculate_plan import create_daily_plan
 
+# User input for the nutrition plan
 weight_lbs = 155
 height_ft = 5
 height_in = 5
@@ -9,30 +10,20 @@ gender = 'male'
 activity_level = 'moderate'
 weight_loss_goal_lbs = 5
 
+# Get the user's nutrition plan
 nutrition_plan = get_nutrition_plan(weight_lbs, height_ft, height_in, age, gender, activity_level, weight_loss_goal_lbs)
-meal_macros = split_macros_by_meal(nutrition_plan)
 
+# Define the dining hall URL and date for the menu
 url = 'https://www.bu.edu/dining/location/marciano/#menu'
 date = '2024-09-16'
-meal_periods = ['breakfast', 'lunch', 'dinner']
 
-for meal_period in meal_periods:
-    print(f"\nSelecting meals for {meal_period.capitalize()} based on the following macros:")
-    print(meal_macros[meal_period])
-    
-    menu = scrape_menu(url, date, meal_period)
-    total_calories, total_protein, total_carbs = 0, 0, 0
-    selected_meals = []
-    
-    for meal in menu:
-        if (total_calories + meal['calories'] <= meal_macros[meal_period]['calories'] and
-            total_protein + meal['protein'] <= meal_macros[meal_period]['protein'] and
-            total_carbs + meal['carbs'] <= meal_macros[meal_period]['carbs']):
-            selected_meals.append(meal)
-            total_calories += meal['calories']
-            total_protein += meal['protein']
-            total_carbs += meal['carbs']
-    
-    print(f"Selected meals for {meal_period.capitalize()}:")
-    for meal in selected_meals:
-        print(meal)
+# Create the daily meal plan by calling the function from calculate_plan.py
+daily_meal_plan = create_daily_plan(url, date, nutrition_plan)
+
+# Display the meal plan for breakfast, lunch, and dinner
+for meal_period, meals in daily_meal_plan.items():
+    print(f"\nMeal Plan for {meal_period.capitalize()}:")
+    for meal in meals:
+        print(f"Location: {meal['location']}")
+        print(f"Items: {meal['items']}")
+        print(f"Calories: {meal['calories']}, Protein: {meal['protein']}g, Carbs: {meal['carbs']}g, Fat: {meal['fat']}g")
