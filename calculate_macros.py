@@ -48,24 +48,40 @@ def get_nutrition_plan(weight_lbs, height_ft, height_in, age, gender, activity_l
         'macros': macros
     }
 
-def split_macros_by_meal(macros):
-    return {
-        'breakfast': {
-            'calories': macros['calories'] * 0.25,
-            'protein': macros['macros']['protein'] * 0.25,
-            'carbs': macros['macros']['carbs'] * 0.25,
-            'fat': macros['macros']['fat'] * 0.25
-        },
-        'lunch': {
-            'calories': macros['calories'] * 0.40,
-            'protein': macros['macros']['protein'] * 0.40,
-            'carbs': macros['macros']['carbs'] * 0.40,
-            'fat': macros['macros']['fat'] * 0.40
-        },
-        'dinner': {
-            'calories': macros['calories'] * 0.35,
-            'protein': macros['macros']['protein'] * 0.35,
-            'carbs': macros['macros']['carbs'] * 0.35,
-            'fat': macros['macros']['fat'] * 0.35
+def split_macros_by_meal(macros, is_weekend=False):
+    if is_weekend:
+        return {
+            'brunch': {
+                'calories': macros['calories'] * 0.55,
+                'protein': macros['macros']['protein'] * 0.55,
+                'carbs': macros['macros']['carbs'] * 0.55,
+                'fat': macros['macros']['fat'] * 0.55
+            },
+            'dinner': {
+                'calories': macros['calories'] * 0.45,
+                'protein': macros['macros']['protein'] * 0.45,
+                'carbs': macros['macros']['carbs'] * 0.45,
+                'fat': macros['macros']['fat'] * 0.45
+            }
         }
-    }
+    else:
+        return {
+            'breakfast': {
+                'calories': macros['calories'] * 0.25,
+                'protein': macros['macros']['protein'] * 0.25,
+                'carbs': macros['macros']['carbs'] * 0.25,
+                'fat': macros['macros']['fat'] * 0.25
+            },
+            'lunch': {
+                'calories': macros['calories'] * 0.40,
+                'protein': macros['macros']['protein'] * 0.40,
+                'carbs': macros['macros']['carbs'] * 0.40,
+                'fat': macros['macros']['fat'] * 0.40
+            },
+            'dinner': {
+                'calories': macros['calories'] * 0.35,
+                'protein': macros['macros']['protein'] * 0.35,
+                'carbs': macros['macros']['carbs'] * 0.35,
+                'fat': macros['macros']['fat'] * 0.35
+            }
+        }

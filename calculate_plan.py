@@ -2,17 +2,23 @@ from calculate_macros import get_nutrition_plan, split_macros_by_meal
 from scrape_menu import scrape_menu
 
 def filter_meals(meals):
-    """Filter out meals with zero calories and group by location."""
     filtered_meals = []
-    
+    zero_calorie_meals = []
+
     for meal in meals:
         if meal['calories'] > 0:
             filtered_meals.append(meal)
+        else:
+            zero_calorie_meals.append(meal)
+
+    if zero_calorie_meals:
+        print("\n[DEBUG] Zero-Calorie Foods Detected:")
+        for zero_cal_meal in zero_calorie_meals:
+            print(f"Name: {zero_cal_meal['name']}, Location: {zero_cal_meal['location']}")
     
     return filtered_meals
 
 def group_meals_by_location(meals):
-    """Group meals by their location into a 'meal'."""
     grouped_meals = {}
     
     for meal in meals:
@@ -34,17 +40,17 @@ def group_meals_by_location(meals):
     
     return grouped_meals
 
-def create_daily_plan(url, date, nutrition_plan):
-    """Generate a meal plan based on the calculated nutrition plan."""
-    meal_macros = split_macros_by_meal(nutrition_plan)
-    meal_periods = ['breakfast', 'lunch', 'dinner']
+def create_daily_plan(url, nutrition_plan, meal_periods, date_today):
+    is_weekend = date_today.weekday() >= 5
+    meal_macros = split_macros_by_meal(nutrition_plan, is_weekend)
+    
     daily_plan = {}
 
     for meal_period in meal_periods:
         print(f"\nSelecting meals for {meal_period.capitalize()} based on the following macros:")
         print(meal_macros[meal_period])
         
-        menu = scrape_menu(url, date, meal_period)
+        menu = scrape_menu(url, str(date_today), meal_period)
         menu = filter_meals(menu) 
         
         grouped_meals = group_meals_by_location(menu)
@@ -63,7 +69,7 @@ def create_daily_plan(url, date, nutrition_plan):
                     'calories': meal_info['total_calories'],
                     'protein': meal_info['total_protein'],
                     'carbs': meal_info['total_carbs'],
-                    'fat': meal_info['total_fat']
+                    'fat': meal_info['total_fat'],
                 })
                 
                 total_calories += meal_info['total_calories']
@@ -74,4 +80,3 @@ def create_daily_plan(url, date, nutrition_plan):
         daily_plan[meal_period] = selected_meals
     
     return daily_plan
-
