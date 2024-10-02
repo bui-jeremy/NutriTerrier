@@ -1,0 +1,103 @@
+.App {
+  display: flex;                  
+  justify-content: center;        
+  min-height: 100vh;              
+  background-color: #f4f4f4;      
+  padding: 20px;                  
+}
+
+.Title {
+  text-align: center;
+  justify-content: center;        
+  background-color: #f4f4f4;      
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+input, select {
+  padding: 8px;
+  margin-top: 5px;
+  width: 50%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #888;
+}
+
+.error {
+  color: red;
+}
+
+.output {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+  font-family: Arial, sans-serif;
+}
+
+/* Meal Plan Styles */
+.meal-plan {
+  margin-top: 20px;
+}
+
+.meal-period {
+  margin-top: 30px;
+}
+
+.meal-period h3 {
+  font-size: 22px;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.meal-item {
+  margin-bottom: 15px;
+}
+
+.meal-item strong {
+  font-size: 18px;
+  color: #333;
+}
+
+.meal-location {
+  font-size: 16px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.meal-macros {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Styling macros */
+.macros span {
+  display: inline-block;
+  margin-right: 15px;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.macros span:last-child {
+  margin-right: 0;
+}
