@@ -9,7 +9,7 @@ from pymongo.server_api import ServerApi
 load_dotenv()
 
 # Set up MongoDB connection
-uri = "mongodb+srv://fayker:EpGWE4dn8s3Y2Iji@mealsscraped.v3i6m.mongodb.net/?retryWrites=true&w=majority&appName=MealsScraped" 
+uri = os.getenv("MONGO_URI")
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client['meal_database']
 meals_collection = db['meals']

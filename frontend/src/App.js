@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import AuthForm from './components/AuthForm';
 import './App.css';
 
 function App() {
+    const [authenticated, setAuthenticated] = useState(false); // State to check if user is authenticated
     const [formData, setFormData] = useState({
         weight: '',
         height_ft: '',
@@ -44,89 +46,97 @@ function App() {
         }
     };
 
+    const handleAuth = () => {
+        // Call this after successful authentication
+        setAuthenticated(true);
+    };
+
     return (
-        <div className="Title">
-            <h1>Daily Meal Plan Generator</h1>
-            <div className="App">
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Weight (lbs):
-                        <input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Height (ft):
-                        <input type="number" name="height_ft" value={formData.height_ft} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Height (in):
-                        <input type="number" name="height_in" value={formData.height_in} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Age:
-                        <input type="number" name="age" value={formData.age} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Gender:
-                        <select name="gender" value={formData.gender} onChange={handleChange} required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </label>
-                    <label>
-                        Activity Level:
-                        <select name="activity_level" value={formData.activity_level} onChange={handleChange} required>
-                            <option value="sedentary">Sedentary</option>
-                            <option value="light">Light</option>
-                            <option value="moderate">Moderate</option>
-                            <option value="very_active">Very Active</option>
-                        </select>
-                    </label>
-                    <label>
-                        Dining Hall:
-                        <select name="dining_hall" value={formData.dining_hall} onChange={handleChange} required>
-                            <option value="marciano">Marciano</option>
-                            <option value="warren">Warren</option>
-                            <option value="west">West</option>
-                            <option value="granby">Granby</option>
-                        </select>
-                    </label>
-                    <label>
-                        Weight Loss Goal (lbs):
-                        <input type="number" name="weight_loss_goal" value={formData.weight_loss_goal} onChange={handleChange} required />
-                    </label>
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Generating...' : 'Generate Meal Plan'}
-                    </button>
-                </form>
+        <div className="App">
+            {!authenticated ? (
+                <AuthForm handleAuth={handleAuth} />
+            ) : (
+                <div className="meal-plan-container">
+                    <h1>Daily Meal Plan Generator</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Weight (lbs):
+                            <input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
+                        </label>
+                        <label>
+                            Height (ft):
+                            <input type="number" name="height_ft" value={formData.height_ft} onChange={handleChange} required />
+                        </label>
+                        <label>
+                            Height (in):
+                            <input type="number" name="height_in" value={formData.height_in} onChange={handleChange} required />
+                        </label>
+                        <label>
+                            Age:
+                            <input type="number" name="age" value={formData.age} onChange={handleChange} required />
+                        </label>
+                        <label>
+                            Gender:
+                            <select name="gender" value={formData.gender} onChange={handleChange} required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </label>
+                        <label>
+                            Activity Level:
+                            <select name="activity_level" value={formData.activity_level} onChange={handleChange} required>
+                                <option value="sedentary">Sedentary</option>
+                                <option value="light">Light</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="very_active">Very Active</option>
+                            </select>
+                        </label>
+                        <label>
+                            Dining Hall:
+                            <select name="dining_hall" value={formData.dining_hall} onChange={handleChange} required>
+                                <option value="marciano">Marciano</option>
+                                <option value="warren">Warren</option>
+                                <option value="west">West</option>
+                                <option value="granby">Granby</option>
+                            </select>
+                        </label>
+                        <label>
+                            Weight Loss Goal (lbs):
+                            <input type="number" name="weight_loss_goal" value={formData.weight_loss_goal} onChange={handleChange} required />
+                        </label>
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Generating...' : 'Generate Meal Plan'}
+                        </button>
+                    </form>
 
-                {error && <p className="error">{error}</p>}
+                    {error && <p className="error">{error}</p>}
 
-                {output && (
-                    <div className="meal-plan-output">
-                        <h2>Meal Plan</h2>
-                        {["breakfast", "lunch", "dinner"].map(mealTime => (
-                            <div key={mealTime}>
-                                <h3>{mealTime.charAt(0).toUpperCase() + mealTime.slice(1)}</h3>
-                                <ul>
-                                    {output[mealTime].map((meal, index) => (
-                                        <li key={index}>
-                                            {/* Map through items if there are multiple foods */}
-                                            {meal.items && meal.items.map((item, itemIndex) => (
-                                                <span key={itemIndex}>
-                                                    <strong>{item}</strong><br />
-                                                </span>
-                                            ))}
-                                            <em>Location: {meal.location}</em>
-                                            <br />
-                                            Calories: {meal.calories} | Protein: {meal.protein}g | Carbs: {meal.carbs}g | Fat: {meal.fat}g
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+                    {output && (
+                        <div className="meal-plan-output">
+                            <h2>Meal Plan</h2>
+                            {["breakfast", "lunch", "dinner"].map(mealTime => (
+                                <div key={mealTime}>
+                                    <h3>{mealTime.charAt(0).toUpperCase() + mealTime.slice(1)}</h3>
+                                    <ul>
+                                        {output[mealTime].map((meal, index) => (
+                                            <li key={index}>
+                                                {meal.items && meal.items.map((item, itemIndex) => (
+                                                    <span key={itemIndex}>
+                                                        <strong>{item}</strong><br />
+                                                    </span>
+                                                ))}
+                                                <em>Location: {meal.location}</em>
+                                                <br />
+                                                Calories: {meal.calories} | Protein: {meal.protein}g | Carbs: {meal.carbs}g | Fat: {meal.fat}g
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
