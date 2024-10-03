@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Meal Plan</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Daily Meal Plan</h1>
+
+    <form action="/run-python" method="get">
+        <button type="submit">Run Python Script</button>
+    </form>
+
+    <% if (pythonOutput) { %>
+        <h2>Python Script Output:</h2>
+        <pre><%= pythonOutput %></pre>
+    <% } %>
+
+</body>
+</html>
