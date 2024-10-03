@@ -6,13 +6,6 @@ from datetime import date
 
 app = FastAPI()
 
-DINING_LOCATIONS = {
-    "marciano": "https://www.bu.edu/dining/location/marciano/#menu",
-    "warren": "https://www.bu.edu/dining/location/warren/#menu",
-    "west": "https://www.bu.edu/dining/location/west/#menu",
-    "granby": "https://www.bu.edu/dining/location/granby/#menu"
-}
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # React frontend URL
