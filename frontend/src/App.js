@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+<<<<<<< HEAD
 import Login from './components/Login';
 import Logout from './components/Logout';
 import HomePage from './pages/HomePage';
@@ -51,6 +52,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 =======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 >>>>>>> e7cf4a5 (fix: rebase)
+=======
+<<<<<<< HEAD
+>>>>>>> 6ab0837 (fix: rebase)
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
@@ -58,6 +62,7 @@ import Settings from './pages/Settings';
 import MealGeneration from './pages/MealGeneration';
 import Navbar from './components/Navbar'; // Ensure this component exists
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 786294e (stash)
@@ -70,6 +75,17 @@ import { jwtDecode } from 'jwt-decode';
 >>>>>>> e06b45a (fix: rebase)
 =======
 >>>>>>> e7cf4a5 (fix: rebase)
+=======
+=======
+import Login from './components/Login';
+import Logout from './components/Logout';
+import HomePage from './pages/HomePage';
+import MealGeneration from './pages/MealGeneration';
+import Settings from './pages/Settings';
+import Navbar from './components/Navbar';
+import {jwtDecode} from 'jwt-decode';
+>>>>>>> 8ab7809 (navbar)
+>>>>>>> 6ab0837 (fix: rebase)
 
 function App() {
   const [user, setUser] = useState(null);
@@ -162,6 +178,7 @@ function App() {
             <Logout setUser={setUser} />
             <h1>Welcome, {user.name}!</h1>
             <img src={user.picture} alt="User Profile" />
+<<<<<<< HEAD
             <button onClick={toggleSettings}>
               {showSettings ? "Back to Home" : "Settings"}
             </button>
@@ -172,6 +189,14 @@ function App() {
           <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
           <Route path="/mealgeneration" element={<MealGeneration />} />
           <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
+=======
+          </div>
+        )}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mealgeneration" element={<MealGeneration />} />
+          <Route path="/Settings" element={<Settings />} />
+>>>>>>> 8ab7809 (navbar)
         </Routes>
       </div>
     </Router>
