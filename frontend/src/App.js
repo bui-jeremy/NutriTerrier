@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
 import Logout from './components/Logout';
-import { jwtDecode } from 'jwt-decode';
-
+import HomePage from './pages/HomePage';
+import { jwtDecode } from 'jwt-decode'; // If named export
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,12 +23,15 @@ function App() {
   return (
     <div className="App">
       {!user ? (
+        // Show Login component if not logged in
         <Login setUser={setUser} />
       ) : (
+        // Show HomePage and Logout components if logged in
         <div>
+          <Logout setUser={setUser} />
           <h1>Welcome, {user.name}!</h1>
           <img src={user.picture} alt="User Profile" />
-          <Logout setUser={setUser} />
+          <HomePage />
         </div>
       )}
     </div>
