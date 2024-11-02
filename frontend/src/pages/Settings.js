@@ -10,6 +10,7 @@ function Settings({ user, setUser, updateUser }) {
   const [diningHall, setDiningHall] = useState(user?.diningHall || '');
   const [weight, setWeight] = useState(user?.weight || '');
   const [height, setHeight] = useState(user?.height || '');
+  const [age, setAge] = useState(user?.age || ''); // New state variable for age
   const [mealPlan, setMealPlan] = useState(user?.mealPlan || '');
 
   const handleLogout = () => {
@@ -25,6 +26,7 @@ function Settings({ user, setUser, updateUser }) {
       diningHall,
       weight,
       height,
+      age, // Include age in the updated user object
       mealPlan,
     };
     setUser(updatedUser);
@@ -77,6 +79,16 @@ function Settings({ user, setUser, updateUser }) {
             type="number"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
+          />
+        </label>
+
+        {/* Age */}
+        <label>
+          Age:
+          <input
+            type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
           />
         </label>
 
