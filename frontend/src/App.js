@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Logout from './components/Logout';
@@ -12,6 +13,8 @@ import {jwtDecode} from 'jwt-decode';
 =======
 =======
 >>>>>>> ea30318 (fix)
+=======
+>>>>>>> 13b60af (fix: rebase)
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
@@ -21,6 +24,8 @@ import { jwtDecode } from 'jwt-decode';
 >>>>>>> 786294e (stash)
 =======
 =======
+=======
+>>>>>>> ea905d5 (fix: rebase)
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Logout from './components/Logout';
@@ -29,8 +34,21 @@ import MealGeneration from './pages/MealGeneration';
 import Settings from './pages/Settings';
 import Navbar from './components/Navbar';
 import {jwtDecode} from 'jwt-decode';
+<<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
+<<<<<<< HEAD
 >>>>>>> ea30318 (fix)
+=======
+=======
+=======
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import HomePage from './pages/HomePage';
+import Settings from './pages/Settings';
+import { jwtDecode } from 'jwt-decode';
+>>>>>>> 786294e (stash)
+>>>>>>> ea905d5 (fix: rebase)
+>>>>>>> 13b60af (fix: rebase)
 
 function App() {
   const [user, setUser] = useState(null);
@@ -55,6 +73,7 @@ function App() {
   return (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Router>
       <div className="App">
         <Navbar />
@@ -77,6 +96,8 @@ function App() {
 =======
 =======
 >>>>>>> ea30318 (fix)
+=======
+>>>>>>> 13b60af (fix: rebase)
     <div className="App">
       {!user ? (
         <Login setUser={setUser} />
@@ -100,6 +121,8 @@ function App() {
 >>>>>>> 786294e (stash)
 =======
 =======
+=======
+>>>>>>> ea905d5 (fix: rebase)
     <Router>
       <div className="App">
         <Navbar />
@@ -119,8 +142,35 @@ function App() {
         </Routes>
       </div>
     </Router>
+<<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
+<<<<<<< HEAD
 >>>>>>> ea30318 (fix)
+=======
+=======
+=======
+    <div className="App">
+      {!user ? (
+        <Login setUser={setUser} />
+      ) : (
+        <div>
+          <Logout setUser={setUser} />
+          <h1>Welcome, {user.name}!</h1>
+          <img src={user.picture} alt="User Profile" />
+          <button onClick={toggleSettings}>
+            {showSettings ? "Back to Home" : "Settings"}
+          </button>
+          {showSettings ? (
+            <Settings user={user} setUser={setUser} />
+          ) : (
+            <HomePage />
+          )}
+        </div>
+      )}
+    </div>
+>>>>>>> 786294e (stash)
+>>>>>>> ea905d5 (fix: rebase)
+>>>>>>> 13b60af (fix: rebase)
   );
 }
 
