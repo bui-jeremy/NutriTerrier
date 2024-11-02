@@ -2,7 +2,7 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode'; // Leaving the import statement as is
-import './Login.css'; // Import the CSS file
+
 
 function Login({ setUser }) {
   const handleGoogleLoginSuccess = (credentialResponse) => {
