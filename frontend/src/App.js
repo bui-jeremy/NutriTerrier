@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Logout from './components/Logout';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
-import MealGeneration from './pages/MealGeneration';
 import Settings from './pages/Settings';
-import Navbar from './components/Navbar';
-import {jwtDecode} from 'jwt-decode';
+import MealGeneration from './pages/MealGeneration';
+import Navbar from './components/Navbar'; // Ensure this component exists
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -23,6 +24,10 @@ function App() {
     }
   }, []);
 
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
   return (
     <Router>
       <div className="App">
@@ -34,12 +39,16 @@ function App() {
             <Logout setUser={setUser} />
             <h1>Welcome, {user.name}!</h1>
             <img src={user.picture} alt="User Profile" />
+            <button onClick={toggleSettings}>
+              {showSettings ? "Back to Home" : "Settings"}
+            </button>
           </div>
         )}
+        
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
           <Route path="/mealgeneration" element={<MealGeneration />} />
-          <Route path="/Settings" element={<Settings />} />
+          <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
         </Routes>
       </div>
     </Router>
