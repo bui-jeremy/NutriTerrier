@@ -1,0 +1,28 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: #FF6347; /* Change background to red */
+    color: #fff;
+  }
+  
+  .navbar h1 {
+    margin: 0;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .navbar-links a {
+    color: #fff; /* Change link color to white */
+    text-decoration: none;
+    font-weight: bold; /* To match the bold look in your screenshot */
+  }
+  
+  .navbar-links a:hover {
+    text-decoration: underline;
+  }
+  

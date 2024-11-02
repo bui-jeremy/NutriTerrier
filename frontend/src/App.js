@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import HomePage from './pages/HomePage';
-import { jwtDecode } from 'jwt-decode'; // If named export
+import MealGeneration from './pages/MealGeneration';
+import Settings from './pages/Settings';
+import Navbar from './components/Navbar';
+import {jwtDecode} from 'jwt-decode';
 
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Check for token in localStorage on app load
     const token = localStorage.getItem('token');
     if (token) {
       const decoded = jwtDecode(token);
@@ -21,20 +24,25 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      {!user ? (
-        // Show Login component if not logged in
-        <Login setUser={setUser} />
-      ) : (
-        // Show HomePage and Logout components if logged in
-        <div>
-          <Logout setUser={setUser} />
-          <h1>Welcome, {user.name}!</h1>
-          <img src={user.picture} alt="User Profile" />
-          <HomePage />
-        </div>
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        {!user ? (
+          <Login setUser={setUser} />
+        ) : (
+          <div>
+            <Logout setUser={setUser} />
+            <h1>Welcome, {user.name}!</h1>
+            <img src={user.picture} alt="User Profile" />
+          </div>
+        )}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mealgeneration" element={<MealGeneration />} />
+          <Route path="/Settings" element={<Settings />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
