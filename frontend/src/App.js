@@ -31,25 +31,20 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar />
         {!user ? (
           <Login setUser={setUser} />
         ) : (
           <div>
-            <Logout setUser={setUser} />
-            <h1>Welcome, {user.name}!</h1>
-            <img src={user.picture} alt="User Profile" />
-            <button onClick={toggleSettings}>
-              {showSettings ? "Back to Home" : "Settings"}
-            </button>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
+              <Route path="/mealgeneration" element={<MealGeneration />} />
+              <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
+            </Routes>
           </div>
         )}
         
-        <Routes>
-          <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
-          <Route path="/mealgeneration" element={<MealGeneration />} />
-          <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
-        </Routes>
+        
       </div>
     </Router>
   );
