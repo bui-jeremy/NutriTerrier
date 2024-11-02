@@ -107,7 +107,7 @@ from datetime import datetime
 from pydantic import BaseModel
 import os
 import logging
-
+from dotenv import load_dotenv
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
 
