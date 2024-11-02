@@ -82,12 +82,12 @@ function Settings({ user, setUser, updateUser }) {
 
         {/* Desired Meal Plan */}
         <label>
-          Desired Meal Plan:
+          Desired Goal:
           <select
             value={mealPlan}
             onChange={(e) => setMealPlan(e.target.value)}
           >
-            <option value="">Select a meal plan</option>
+            <option value="">Select a goal</option>
             <option value="Bulk">Bulk</option>
             <option value="Cut">Cut</option>
             <option value="Maintain">Maintain</option>
