@@ -6,6 +6,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from 'react';
 
 function Settings() {
@@ -25,6 +26,8 @@ function Settings() {
 >>>>>>> b2f94fa (rebase: files)
 =======
 >>>>>>> 40230a8 (rebase: files)
+=======
+>>>>>>> b7b5e39 (rebase: files)
 import React, { useState } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
@@ -123,6 +126,8 @@ function Settings({ user, setUser, updateUser }) {
 >>>>>>> fdd5a97 (fix)
 =======
 >>>>>>> 99abbce (fix: rebase)
+=======
+>>>>>>> 7466bcb (fix: rebase)
 import React from 'react';
 
 function Settings() {
@@ -141,6 +146,8 @@ function Settings() {
 >>>>>>> ea30318 (fix)
 =======
 >>>>>>> 13b60af (fix: rebase)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
 import React, { useState } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
@@ -227,6 +234,7 @@ function Settings({ user, setUser, updateUser }) {
   );
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> ea905d5 (fix: rebase)
 >>>>>>> 13b60af (fix: rebase)
 =======
@@ -236,6 +244,8 @@ function Settings({ user, setUser, updateUser }) {
 =======
 =======
 >>>>>>> b2f94fa (rebase: files)
+=======
+>>>>>>> b7b5e39 (rebase: files)
 >>>>>>> 786294e (stash)
 <<<<<<< HEAD
 >>>>>>> 8da6f48 (rebase)
@@ -346,8 +356,16 @@ function Settings({ user, setUser, updateUser }) {
   );
 >>>>>>> ea905d5 (fix: rebase)
 >>>>>>> 13b60af (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 99abbce (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 40230a8 (rebase: files)
+=======
+=======
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
+>>>>>>> 7466bcb (fix: rebase)
+>>>>>>> b7b5e39 (rebase: files)
 }
 
 export default Settings;

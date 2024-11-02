@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 124aea9 (rebase: files)
 =======
@@ -16,6 +17,8 @@ import React, { useState, useEffect } from 'react';
 >>>>>>> 40230a8 (rebase: files)
 =======
 >>>>>>> 407551f (rebase: files)
+=======
+>>>>>>> b7b5e39 (rebase: files)
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 <<<<<<< HEAD
 import Login from './components/Login';
@@ -150,6 +153,9 @@ import {jwtDecode} from 'jwt-decode';
 =======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 >>>>>>> 4f63f89 (fix)
+=======
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+>>>>>>> e7cf4a5 (fix: rebase)
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
@@ -157,6 +163,7 @@ import Settings from './pages/Settings';
 import MealGeneration from './pages/MealGeneration';
 import Navbar from './components/Navbar'; // Ensure this component exists
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 786294e (stash)
 >>>>>>> ea905d5 (fix: rebase)
@@ -172,8 +179,16 @@ import { jwtDecode } from 'jwt-decode';
 =======
 >>>>>>> 4f63f89 (fix)
 >>>>>>> e06b45a (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 3df8649 (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 407551f (rebase: files)
+=======
+=======
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
+>>>>>>> 7466bcb (fix: rebase)
+>>>>>>> b7b5e39 (rebase: files)
 
 function App() {
   const [user, setUser] = useState(null);
@@ -205,6 +220,7 @@ function App() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Router>
       <div className="App">
         <Navbar />
@@ -268,6 +284,8 @@ function App() {
 >>>>>>> 40230a8 (rebase: files)
 =======
 >>>>>>> 407551f (rebase: files)
+=======
+>>>>>>> b7b5e39 (rebase: files)
     <Router>
       <div className="App">
         <Navbar />
@@ -359,6 +377,8 @@ function App() {
 >>>>>>> ea905d5 (fix: rebase)
 =======
 >>>>>>> 4f63f89 (fix)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
     <Router>
       <div className="App">
         <Navbar />
@@ -382,6 +402,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
@@ -423,7 +444,12 @@ function App() {
 =======
 >>>>>>> 4f63f89 (fix)
 >>>>>>> e06b45a (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 407551f (rebase: files)
+=======
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
+>>>>>>> b7b5e39 (rebase: files)
   );
 }
 
