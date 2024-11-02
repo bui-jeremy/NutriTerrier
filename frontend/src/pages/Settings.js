@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
 
-import Logout from './Logout';
+import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
   const [name, setName] = useState(user?.name || '');
