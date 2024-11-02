@@ -1,0 +1,55 @@
+/* src/pages/Settings.css */
+
+.settings {
+    max-width: 400px;
+    margin: 20px auto; /* Add margin from top for spacing */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Reduced shadow for a softer look */
+  }
+  
+  .settings h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px; /* Larger font for the title */
+  }
+  
+  .settings form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 15px;
+  }
+  
+  .settings label {
+    font-weight: bold;
+    color: #555;
+    font-size: 14px; /* Font size adjustment */
+  }
+  
+  .settings input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .settings button {
+    padding: 12px; /* Increased padding for a more substantial button */
+    font-size: 16px;
+    color: #fff;
+    background-color: #FF6347;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .settings button:hover {
+    background-color: #e55347;
+  }
+  

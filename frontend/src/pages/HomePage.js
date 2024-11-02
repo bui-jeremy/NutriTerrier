@@ -28,10 +28,6 @@ function HomePage() {
 
   return (
     <div>
-      {/* Navbar */}
-      <div className="navbar">
-        <h1>Nutrition Tracker</h1>
-      </div>
 
       <div className="content">
         {/* Greeting Message */}
