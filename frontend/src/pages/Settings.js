@@ -1,9 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from 'react';
 
 function Settings() {
   return <div><h1>Settings</h1></div>;
 =======
+=======
+>>>>>>> ea30318 (fix)
 import React, { useState } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
@@ -88,7 +91,16 @@ function Settings({ user, setUser, updateUser }) {
       <Logout setUser={setUser} />
     </div>
   );
+<<<<<<< HEAD
 >>>>>>> 786294e (stash)
+=======
+=======
+import React from 'react';
+
+function Settings() {
+  return <div><h1>Settings</h1></div>;
+>>>>>>> 8ab7809 (navbar)
+>>>>>>> ea30318 (fix)
 }
 
 export default Settings;
