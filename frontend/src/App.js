@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Logout from './pages/Logout';
+import Login from './pages/authentication/Login';
+import Signup from './pages/authentication/Signup';
 import HomePage from './pages/HomePage';
 import Settings from './pages/Settings';
 import MealGeneration from './pages/MealGeneration';
-import Navbar from './components/Navbar'; // Ensure this component exists
+import Navbar from './components/Navbar';
 import { jwtDecode } from 'jwt-decode';
 
 function App() {
@@ -32,7 +32,11 @@ function App() {
     <Router>
       <div className="App">
         {!user ? (
-          <Login setUser={setUser} />
+          <Routes>
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<Login setUser={setUser} />} />
+          </Routes>
         ) : (
           <div>
             <Navbar />
@@ -43,8 +47,6 @@ function App() {
             </Routes>
           </div>
         )}
-        
-        
       </div>
     </Router>
   );
