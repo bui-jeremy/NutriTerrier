@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from 'react';
 
 function Settings() {
@@ -10,6 +11,8 @@ function Settings() {
 >>>>>>> ea30318 (fix)
 =======
 >>>>>>> 13b60af (fix: rebase)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
 import React, { useState } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
@@ -94,6 +97,7 @@ function Settings({ user, setUser, updateUser }) {
       <Logout setUser={setUser} />
     </div>
   );
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 786294e (stash)
 =======
@@ -193,6 +197,8 @@ function Settings({ user, setUser, updateUser }) {
   );
 >>>>>>> ea905d5 (fix: rebase)
 >>>>>>> 13b60af (fix: rebase)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
 }
 
 export default Settings;

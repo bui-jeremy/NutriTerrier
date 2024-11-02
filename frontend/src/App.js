@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Logout from './components/Logout';
@@ -47,6 +48,9 @@ import {jwtDecode} from 'jwt-decode';
 =======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 >>>>>>> 4f63f89 (fix)
+=======
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+>>>>>>> e7cf4a5 (fix: rebase)
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
@@ -54,6 +58,7 @@ import Settings from './pages/Settings';
 import MealGeneration from './pages/MealGeneration';
 import Navbar from './components/Navbar'; // Ensure this component exists
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 786294e (stash)
 >>>>>>> ea905d5 (fix: rebase)
@@ -63,6 +68,8 @@ import { jwtDecode } from 'jwt-decode';
 =======
 >>>>>>> 4f63f89 (fix)
 >>>>>>> e06b45a (fix: rebase)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
 
 function App() {
   const [user, setUser] = useState(null);
@@ -85,6 +92,7 @@ function App() {
   };
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -142,6 +150,8 @@ function App() {
 >>>>>>> ea905d5 (fix: rebase)
 =======
 >>>>>>> 4f63f89 (fix)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
     <Router>
       <div className="App">
         <Navbar />
@@ -165,6 +175,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
@@ -200,6 +211,8 @@ function App() {
 =======
 >>>>>>> 4f63f89 (fix)
 >>>>>>> e06b45a (fix: rebase)
+=======
+>>>>>>> e7cf4a5 (fix: rebase)
   );
 }
 
