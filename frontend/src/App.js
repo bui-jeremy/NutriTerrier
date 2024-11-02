@@ -7,12 +7,15 @@ import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 124aea9 (rebase: files)
 =======
 >>>>>>> b2f94fa (rebase: files)
 =======
 >>>>>>> 40230a8 (rebase: files)
+=======
+>>>>>>> 407551f (rebase: files)
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 <<<<<<< HEAD
 import Login from './components/Login';
@@ -104,6 +107,8 @@ import {jwtDecode} from 'jwt-decode';
 >>>>>>> ea30318 (fix)
 =======
 >>>>>>> 13b60af (fix: rebase)
+=======
+>>>>>>> e06b45a (fix: rebase)
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
@@ -142,16 +147,33 @@ import {jwtDecode} from 'jwt-decode';
 =======
 =======
 =======
+=======
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+>>>>>>> 4f63f89 (fix)
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import HomePage from './pages/HomePage';
 import Settings from './pages/Settings';
+import MealGeneration from './pages/MealGeneration';
+import Navbar from './components/Navbar'; // Ensure this component exists
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
 >>>>>>> 786294e (stash)
 >>>>>>> ea905d5 (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 13b60af (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 99abbce (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 40230a8 (rebase: files)
+=======
+=======
+=======
+=======
+>>>>>>> 4f63f89 (fix)
+>>>>>>> e06b45a (fix: rebase)
+>>>>>>> 3df8649 (fix: rebase)
+>>>>>>> 407551f (rebase: files)
 
 function App() {
   const [user, setUser] = useState(null);
@@ -174,6 +196,7 @@ function App() {
   };
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -243,6 +266,8 @@ function App() {
 >>>>>>> b2f94fa (rebase: files)
 =======
 >>>>>>> 40230a8 (rebase: files)
+=======
+>>>>>>> 407551f (rebase: files)
     <Router>
       <div className="App">
         <Navbar />
@@ -291,6 +316,8 @@ function App() {
 >>>>>>> ea30318 (fix)
 =======
 >>>>>>> 13b60af (fix: rebase)
+=======
+>>>>>>> e06b45a (fix: rebase)
     <div className="App">
       {!user ? (
         <Login setUser={setUser} />
@@ -330,6 +357,8 @@ function App() {
 =======
 =======
 >>>>>>> ea905d5 (fix: rebase)
+=======
+>>>>>>> 4f63f89 (fix)
     <Router>
       <div className="App">
         <Navbar />
@@ -340,15 +369,20 @@ function App() {
             <Logout setUser={setUser} />
             <h1>Welcome, {user.name}!</h1>
             <img src={user.picture} alt="User Profile" />
+            <button onClick={toggleSettings}>
+              {showSettings ? "Back to Home" : "Settings"}
+            </button>
           </div>
         )}
+        
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
           <Route path="/mealgeneration" element={<MealGeneration />} />
-          <Route path="/Settings" element={<Settings />} />
+          <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
         </Routes>
       </div>
     </Router>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
 <<<<<<< HEAD
@@ -380,8 +414,16 @@ function App() {
     </div>
 >>>>>>> 786294e (stash)
 >>>>>>> ea905d5 (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 13b60af (fix: rebase)
+<<<<<<< HEAD
 >>>>>>> 40230a8 (rebase: files)
+=======
+=======
+=======
+>>>>>>> 4f63f89 (fix)
+>>>>>>> e06b45a (fix: rebase)
+>>>>>>> 407551f (rebase: files)
   );
 }
 
