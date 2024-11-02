@@ -1,8 +1,7 @@
-// Settings.js
 import React, { useState } from 'react';
+import axios from 'axios';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
-
 import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
@@ -18,18 +17,25 @@ function Settings({ user, setUser, updateUser }) {
     localStorage.removeItem('token');
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const updatedUser = {
-      ...user,
       name,
       diningHall,
       weight,
       height,
       mealPlan,
     };
-    setUser(updatedUser);
-    updateUser(updatedUser); // You can store the updates in localStorage or send them to a server
-    alert('Settings saved!');
+
+    try {
+      // Send POST request to backend API
+      await axios.post('http://localhost:8000/api/user/settings', updatedUser);
+      setUser(updatedUser);
+      updateUser(updatedUser); // Optionally update user locally
+      alert('Settings saved successfully!');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      alert('Failed to save settings.');
+    }
   };
 
   return (
