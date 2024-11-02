@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import { jwtDecode } from 'jwt-decode';
+
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check for token in localStorage on app load
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUser({
+        name: decoded.name,
+        email: decoded.email,
+        picture: decoded.picture,
+      });
+    }
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!user ? (
+        <Login setUser={setUser} />
+      ) : (
+        <div>
+          <h1>Welcome, {user.name}!</h1>
+          <img src={user.picture} alt="User Profile" />
+          <Logout setUser={setUser} />
+        </div>
+      )}
     </div>
   );
 }
