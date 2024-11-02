@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 124aea9 (rebase: files)
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 <<<<<<< HEAD
 import Login from './components/Login';
@@ -84,8 +87,21 @@ import MealGeneration from './pages/MealGeneration';
 import Settings from './pages/Settings';
 import Navbar from './components/Navbar';
 import {jwtDecode} from 'jwt-decode';
+<<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
+<<<<<<< HEAD
 >>>>>>> 6ab0837 (fix: rebase)
+=======
+=======
+=======
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import HomePage from './pages/HomePage';
+import Settings from './pages/Settings';
+import { jwtDecode } from 'jwt-decode';
+>>>>>>> 786294e (stash)
+>>>>>>> 8da6f48 (rebase)
+>>>>>>> 124aea9 (rebase: files)
 
 function App() {
   const [user, setUser] = useState(null);
@@ -108,6 +124,7 @@ function App() {
   };
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -168,6 +185,8 @@ function App() {
 >>>>>>> 4f63f89 (fix)
 =======
 >>>>>>> e7cf4a5 (fix: rebase)
+=======
+>>>>>>> 124aea9 (rebase: files)
     <Router>
       <div className="App">
         <Navbar />
@@ -203,11 +222,14 @@ function App() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 8ab7809 (navbar)
 <<<<<<< HEAD
 >>>>>>> ea30318 (fix)
 =======
 =======
+=======
+>>>>>>> 124aea9 (rebase: files)
 =======
     <div className="App">
       {!user ? (
@@ -229,6 +251,7 @@ function App() {
       )}
     </div>
 >>>>>>> 786294e (stash)
+<<<<<<< HEAD
 >>>>>>> ea905d5 (fix: rebase)
 <<<<<<< HEAD
 >>>>>>> 13b60af (fix: rebase)
@@ -238,6 +261,8 @@ function App() {
 >>>>>>> e06b45a (fix: rebase)
 =======
 >>>>>>> e7cf4a5 (fix: rebase)
+=======
+>>>>>>> 124aea9 (rebase: files)
   );
 }
 
