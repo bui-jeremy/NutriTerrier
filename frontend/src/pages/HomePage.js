@@ -1,65 +1,98 @@
-// src/components/HomePage.js
+import React from "react";
+import "../App.css"; // Import App.css for the navbar styling
+import "./HomePage.css"; // Import HomePage-specific styles
 
-import React from 'react';
-import './HomePage.css';
+function HomePage() {
+  const currentCalories = 1900;
+  const goalCalories = 2500;
+  const currentProtein = 60; // current grams of protein
+  const goalProtein = 100; // goal grams of protein
+  const currentFat = 30; // current grams of fat
+  const goalFat = 70; // goal grams of fat
 
-const HomePage = () => {
-  // Sample data (you can replace this with props or state)
-  const caloriesEaten = 1500;
-  const calorieGoal = 2000;
-  const proteinEaten = 80;
-  const proteinGoal = 100;
-  const fatEaten = 50;
-  const fatGoal = 70;
+  const calculatePercentage = (current, goal) => (current / goal) * 100;
 
-  // Calculate percentages
-  const caloriePercentage = (caloriesEaten / calorieGoal) * 100;
-  const proteinPercentage = (proteinEaten / proteinGoal) * 100;
-  const fatPercentage = (fatEaten / fatGoal) * 100;
+  // Greeting message based on time of day
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) {
+      return { message: "Good morning!", icon: "☀️" }; // Rising sunshine icon
+    } else if (hour >= 12 && hour < 18) {
+      return { message: "Good afternoon!", icon: "🌞" }; // Sunshine icon
+    } else {
+      return { message: "Good night!", icon: "🌙" }; // Moon icon
+    }
+  };
+
+  const greeting = getGreeting();
 
   return (
-    <div className="homepage">
-      {/* User profile section */}
-      <div className="user-profile">
-        <img src="/path-to-user-image.jpg" alt="User" className="profile-image" />
-        <h2>User Name</h2>
+    <div>
+      {/* Navbar */}
+      <div className="navbar">
+        <h1>Nutrition Tracker</h1>
       </div>
 
-      {/* Circular progress bar for calories */}
-      <div className="calorie-progress">
-        <svg className="circle" width="100" height="100">
-          <circle cx="50" cy="50" r="45" className="circle-bg" />
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            className="circle-fg"
-            strokeDasharray="282.6" // Circumference of circle = 2 * π * r
-            strokeDashoffset={282.6 - (282.6 * caloriePercentage) / 100}
-          />
-        </svg>
-        <div className="calorie-text">
-          <p>{caloriesEaten} / {calorieGoal} kcal</p>
+      <div className="content">
+        {/* Greeting Message */}
+        <div className="greeting">
+          {greeting.message}
+          <span className="greeting-icon">{greeting.icon}</span>
         </div>
-      </div>
 
-      {/* Progress bars for protein and fat */}
-      <div className="nutrient-progress">
-        <div className="progress-container">
-          <p>Protein: {proteinEaten}g / {proteinGoal}g</p>
-          <div className="progress-bar">
-            <div className="progress" style={{ width: `${proteinPercentage}%` }}></div>
+        {/* User Profile and Circular Progress */}
+        <div className="user-profile">
+          <div
+            className="circular-progress"
+            style={{
+              background: `conic-gradient(#FF6347 ${
+                (currentCalories / goalCalories) * 360
+              }deg, #ddd 0deg)`,
+            }}
+          >
+            <span className="calories-text">
+              {currentCalories} / {goalCalories}
+              <br />
+              calories
+            </span>
           </div>
         </div>
-        <div className="progress-container">
-          <p>Fat: {fatEaten}g / {fatGoal}g</p>
+
+        {/* Protein Progress */}
+        <div className="progress-bar-container">
+          <div className="progress-bar-label">Protein</div>
           <div className="progress-bar">
-            <div className="progress" style={{ width: `${fatPercentage}%` }}></div>
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${calculatePercentage(currentProtein, goalProtein)}%` }}
+            ></div>
+          </div>
+          <div className="progress-text">
+            {currentProtein}g / {goalProtein}g (
+            {calculatePercentage(currentProtein, goalProtein).toFixed(1)}%)
           </div>
         </div>
+
+        {/* Fat Progress */}
+        <div className="progress-bar-container">
+          <div className="progress-bar-label">Fat</div>
+          <div className="progress-bar">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${calculatePercentage(currentFat, goalFat)}%` }}
+            ></div>
+          </div>
+          <div className="progress-text">
+            {currentFat}g / {goalFat}g (
+            {calculatePercentage(currentFat, goalFat).toFixed(1)}%)
+          </div>
+        </div>
+
+        {/* Additional Content */}
+        <p className="text">Track your daily calorie and macro intake!</p>
       </div>
     </div>
   );
-};
+}
 
 export default HomePage;
