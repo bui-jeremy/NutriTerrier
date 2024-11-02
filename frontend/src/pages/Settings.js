@@ -1,12 +1,12 @@
-// Settings.js
 import React, { useState } from 'react';
+import axios from 'axios';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
-
 import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
   const [name, setName] = useState(user?.name || '');
+  const [email] = useState(user?.email || ''); // Read-only email from user object
   const [gender, setGender] = useState(user?.gender || '');
   const [age, setAge] = useState(user?.age || '');
   const [weight, setWeight] = useState(user?.weight || '');
@@ -21,21 +21,29 @@ function Settings({ user, setUser, updateUser }) {
     localStorage.removeItem('token');
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const updatedUser = {
-      ...user,
       name,
-      gender,
+      email, // Add email to payload
       age,
+      gender,
       weight,
       height,
       activityLevel,
       goal,
-      diningHall,
+      diningHall
     };
-    setUser(updatedUser);
-    updateUser(updatedUser); // You can store the updates in localStorage or send them to a server
-    alert('Settings saved!');
+
+    try {
+      // Send POST request to backend API
+      await axios.post('http://localhost:8000/api/user/settings', updatedUser);
+      setUser(updatedUser);
+      updateUser(updatedUser); // Optionally update user locally
+      alert('Settings saved successfully!');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      alert('Failed to save settings.');
+    }
   };
 
   return (
@@ -49,6 +57,16 @@ function Settings({ user, setUser, updateUser }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+
+        {/* Email (read-only) */}
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            readOnly // Make the email read-only
           />
         </label>
 
