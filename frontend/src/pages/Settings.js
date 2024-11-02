@@ -7,11 +7,13 @@ import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
   const [name, setName] = useState(user?.name || '');
-  const [diningHall, setDiningHall] = useState(user?.diningHall || '');
+  const [gender, setGender] = useState(user?.gender || '');
+  const [age, setAge] = useState(user?.age || '');
   const [weight, setWeight] = useState(user?.weight || '');
   const [height, setHeight] = useState(user?.height || '');
-  const [age, setAge] = useState(user?.age || ''); // New state variable for age
-  const [mealPlan, setMealPlan] = useState(user?.mealPlan || '');
+  const [activityLevel, setActivityLevel] = useState(user?.activityLevel || '');
+  const [goal, setGoal] = useState(user?.goal || '');
+  const [diningHall, setDiningHall] = useState(user?.diningHall || '');
 
   const handleLogout = () => {
     googleLogout();
@@ -23,11 +25,13 @@ function Settings({ user, setUser, updateUser }) {
     const updatedUser = {
       ...user,
       name,
-      diningHall,
+      gender,
+      age,
       weight,
       height,
-      age, // Include age in the updated user object
-      mealPlan,
+      activityLevel,
+      goal,
+      diningHall,
     };
     setUser(updatedUser);
     updateUser(updatedUser); // You can store the updates in localStorage or send them to a server
@@ -48,18 +52,27 @@ function Settings({ user, setUser, updateUser }) {
           />
         </label>
 
-        {/* Preferred Dining Hall */}
+        {/* Gender */}
         <label>
-          Preferred Dining Hall:
+          Gender:
           <select
-            value={diningHall}
-            onChange={(e) => setDiningHall(e.target.value)}
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
           >
-            <option value="">Select a dining hall</option>
-            <option value="Warren Dining Hall">Warren Dining Hall</option>
-            <option value="Marciano Dining Hall">Marciano Dining Hall</option>
-            <option value="West Dining Hall">West Dining Hall</option>
+            <option value="">Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
           </select>
+        </label>
+
+        {/* Age */}
+        <label>
+          Age (years):
+          <input
+            type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
         </label>
 
         {/* Weight */}
@@ -82,27 +95,56 @@ function Settings({ user, setUser, updateUser }) {
           />
         </label>
 
-        {/* Age */}
+        {/* Activity Level */}
         <label>
-          Age:
-          <input
-            type="number"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-          />
+          Activity Level:
+          <select
+            value={activityLevel}
+            onChange={(e) => setActivityLevel(e.target.value)}
+          >
+            <option value="">Select activity level</option>
+            <option value="Sedentary">Sedentary: little or no exercise</option>
+            <option value="Exercise 1-3 times/week">Exercise 1-3 times/week</option>
+            <option value="Exercise 4-5 times/week">Exercise 4-5 times/week</option>
+            <option value="Daily exercise or intense exercise 3-4 times/week">
+              Daily exercise or intense exercise 3-4 times/week
+            </option>
+            <option value="Intense exercise 6-7 times/week">Intense exercise 6-7 times/week</option>
+            <option value="Very intense exercise daily, or physical job">
+              Very intense exercise daily, or physical job
+            </option>
+          </select>
         </label>
 
-        {/* Desired Meal Plan */}
+        {/* Fitness Goal */}
         <label>
-          Desired Meal Plan:
+          Fitness Goal:
           <select
-            value={mealPlan}
-            onChange={(e) => setMealPlan(e.target.value)}
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
           >
-            <option value="">Select a meal plan</option>
-            <option value="Bulk">Bulk</option>
-            <option value="Cut">Cut</option>
-            <option value="Maintain">Maintain</option>
+            <option value="">Select your goal</option>
+            <option value="Maintain">Maintain Weight</option>
+            <option value="Mild Weight Loss">Mild Weight Loss</option>
+            <option value="Weight Loss">Weight Loss</option>
+            <option value="Extreme Weight Loss">Extreme Weight Loss</option>
+            <option value="Mild Weight Gain">Mild Weight Gain</option>
+            <option value="Weight Gain">Weight Gain</option>
+            <option value="Extreme Weight Gain">Extreme Weight Gain</option>
+          </select>
+        </label>
+
+        {/* Preferred Dining Hall */}
+        <label>
+          Preferred Dining Hall:
+          <select
+            value={diningHall}
+            onChange={(e) => setDiningHall(e.target.value)}
+          >
+            <option value="">Select a dining hall</option>
+            <option value="Warren Dining Hall">Warren Dining Hall</option>
+            <option value="Marciano Dining Hall">Marciano Dining Hall</option>
+            <option value="West Dining Hall">West Dining Hall</option>
           </select>
         </label>
 
