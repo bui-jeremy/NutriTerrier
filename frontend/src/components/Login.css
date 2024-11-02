@@ -1,0 +1,72 @@
+/* Login.css */
+
+/* Main Content Wrapper */
+.login-content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Heading */
+.login-heading {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #333;
+}
+
+/* Alternative Login Options */
+.login-alternative {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+}
+
+/* Google Login Button */
+.google-login-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 15px;
+    background-color: white;
+    color: #444;
+    border: 2px solid #FF6347; /* Match your theme color */
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.google-login-button:hover {
+    background-color: #f7f7f7;
+}
+
+.google-login-button img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .login-content {
+        padding: 40px 15px;
+    }
+
+    .login-heading {
+        font-size: 28px;
+    }
+
+    .google-login-button {
+        font-size: 16px;
+    }
+}

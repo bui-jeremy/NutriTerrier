@@ -1,10 +1,11 @@
+// Login.js
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
-
+import { jwtDecode } from 'jwt-decode'; // Leaving the import statement as is
+import './Login.css'; // Import the CSS file
 
 function Login({ setUser }) {
-  const handleLoginSuccess = (credentialResponse) => {
+  const handleGoogleLoginSuccess = (credentialResponse) => {
     const token = credentialResponse.credential;
     const decoded = jwtDecode(token);
 
@@ -19,14 +20,33 @@ function Login({ setUser }) {
     localStorage.setItem('token', token);
   };
 
-  const handleLoginError = () => {
+  const handleGoogleLoginError = () => {
     console.error('Login Failed');
   };
 
   return (
-    <div>
-      <h1>Login with Google</h1>
-      <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+    <div className="login-content">
+      <h1 className="login-heading">Welcome to NutriTerrier</h1>
+      <div className="login-alternative">
+        <p>Login with Google to continue</p>
+      </div>
+      <GoogleLogin
+        onSuccess={handleGoogleLoginSuccess}
+        onError={handleGoogleLoginError}
+        render={(renderProps) => (
+          <button
+            className="google-login-button"
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+          >
+            <img
+              src="https://developers.google.com/identity/images/g-logo.png"
+              alt="Google Icon"
+            />
+            Login with Google
+          </button>
+        )}
+      />
     </div>
   );
 }
