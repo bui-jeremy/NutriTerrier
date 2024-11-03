@@ -9,6 +9,8 @@ function HomePage() {
   const goalProtein = 100; // goal grams of protein
   const currentFat = 30; // current grams of fat
   const goalFat = 70; // goal grams of fat
+  const currentCarbs = 200; // current grams of carbs
+  const goalCarbs = 300; // goal grams of carbs
 
   const calculatePercentage = (current, goal) => (current / goal) * 100;
 
@@ -81,6 +83,21 @@ function HomePage() {
           <div className="progress-text">
             {currentFat}g / {goalFat}g (
             {calculatePercentage(currentFat, goalFat).toFixed(1)}%)
+          </div>
+        </div>
+
+        {/* Carbs Progress */}
+        <div className="progress-bar-container">
+          <div className="progress-bar-label">Carbs</div>
+          <div className="progress-bar">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${calculatePercentage(currentCarbs, goalCarbs)}%` }}
+            ></div>
+          </div>
+          <div className="progress-text">
+            {currentCarbs}g / {goalCarbs}g (
+            {calculatePercentage(currentCarbs, goalCarbs).toFixed(1)}%)
           </div>
         </div>
 
