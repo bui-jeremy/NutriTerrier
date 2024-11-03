@@ -1,28 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css"; // Import App.css for the navbar styling
 import "./HomePage.css"; // Import HomePage-specific styles
+import { googleLogout } from '@react-oauth/google';
+import axios from "axios";
 
 function HomePage() {
-  const currentCalories = 1900;
-  const goalCalories = 2500;
-  const currentProtein = 60; // current grams of protein
-  const goalProtein = 100; // goal grams of protein
-  const currentFat = 30; // current grams of fat
-  const goalFat = 70; // goal grams of fat
-  const currentCarbs = 200; // current grams of carbs
-  const goalCarbs = 300; // goal grams of carbs
-
+  const [calories, setCalories] = useState(0);
+  const [macros, setMacros] = useState({ protein: 0, carbs: 0, fat: 0 });
+  const userEmail = localStorage.getItem("userEmail")
   const calculatePercentage = (current, goal) => (current / goal) * 100;
+
+  // Fetch nutrition data from the backend on component mount
+  useEffect(() => {
+    const fetchNutritionPlan = async () => {
+      try {
+        if (userEmail) {
+          const response = await axios.post("http://localhost:8000/run-python", {
+            email: userEmail  // Send email as an identifier
+          });
+
+          const { calories, macros } = response.data.nutrition_plan;
+          setCalories(calories);
+          setMacros(macros);
+        }
+      } catch (error) {
+        console.error("Error fetching nutrition plan:", error);
+      }
+    };
+
+    fetchNutritionPlan();
+  }, [userEmail]);
 
   // Greeting message based on time of day
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 6 && hour < 12) {
-      return { message: "Good morning!", icon: "☀️" }; // Rising sunshine icon
+      return { message: "Good morning!", icon: "☀️" };
     } else if (hour >= 12 && hour < 18) {
-      return { message: "Good afternoon!", icon: "🌞" }; // Sunshine icon
+      return { message: "Good afternoon!", icon: "🌞" };
     } else {
-      return { message: "Good night!", icon: "🌙" }; // Moon icon
+      return { message: "Good night!", icon: "🌙" };
     }
   };
 
@@ -30,7 +47,6 @@ function HomePage() {
 
   return (
     <div>
-
       <div className="content">
         {/* Greeting Message */}
         <div className="greeting">
@@ -44,12 +60,12 @@ function HomePage() {
             className="circular-progress"
             style={{
               background: `conic-gradient(#FF6347 ${
-                (currentCalories / goalCalories) * 360
+                (calories / 2500) * 360
               }deg, #ddd 0deg)`,
             }}
           >
             <span className="calories-text">
-              {currentCalories} / {goalCalories}
+              {calories.toFixed(0)} / 2500
               <br />
               calories
             </span>
@@ -62,27 +78,12 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(currentProtein, goalProtein)}%` }}
+              style={{ width: `${calculatePercentage(macros.protein, 100)}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentProtein}g / {goalProtein}g (
-            {calculatePercentage(currentProtein, goalProtein).toFixed(1)}%)
-          </div>
-        </div>
-
-        {/* Fat Progress */}
-        <div className="progress-bar-container">
-          <div className="progress-bar-label">Fat</div>
-          <div className="progress-bar">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(currentFat, goalFat)}%` }}
-            ></div>
-          </div>
-          <div className="progress-text">
-            {currentFat}g / {goalFat}g (
-            {calculatePercentage(currentFat, goalFat).toFixed(1)}%)
+            {macros.protein.toFixed(1)}g / 100g (
+            {calculatePercentage(macros.protein, 100).toFixed(1)}%)
           </div>
         </div>
 
@@ -92,12 +93,27 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(currentCarbs, goalCarbs)}%` }}
+              style={{ width: `${calculatePercentage(macros.carbs, 300)}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentCarbs}g / {goalCarbs}g (
-            {calculatePercentage(currentCarbs, goalCarbs).toFixed(1)}%)
+            {macros.carbs.toFixed(1)}g / 300g (
+            {calculatePercentage(macros.carbs, 300).toFixed(1)}%)
+          </div>
+        </div>
+
+        {/* Fat Progress */}
+        <div className="progress-bar-container">
+          <div className="progress-bar-label">Fat</div>
+          <div className="progress-bar">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${calculatePercentage(macros.fat, 70)}%` }}
+            ></div>
+          </div>
+          <div className="progress-text">
+            {macros.fat.toFixed(1)}g / 70g (
+            {calculatePercentage(macros.fat, 70).toFixed(1)}%)
           </div>
         </div>
 
