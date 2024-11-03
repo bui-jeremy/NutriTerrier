@@ -13,6 +13,7 @@ function Settings({ user, setUser, updateUser }) {
   const [height, setHeight] = useState(user?.height || '');
   const [activityLevel, setActivityLevel] = useState(user?.activityLevel || '');
   const [goal, setGoal] = useState(user?.goal || '');
+  const [weightChange, setWeightChange] = useState(user?.weightChange || ''); // New state for weight change amount
   const [diningHall, setDiningHall] = useState(user?.diningHall || '');
 
   const handleLogout = () => {
@@ -31,7 +32,8 @@ function Settings({ user, setUser, updateUser }) {
       height,
       activityLevel,
       goal,
-      diningHall
+      weightChange, // Include weight change in the payload
+      diningHall,
     };
 
     try {
@@ -113,6 +115,16 @@ function Settings({ user, setUser, updateUser }) {
           />
         </label>
 
+        {/* Amount of Weight to Gain/Lose */}
+        <label>
+          Amount of Weight to Gain/Lose (kg):
+          <input
+            type="number"
+            value={weightChange}
+            onChange={(e) => setWeightChange(e.target.value)}
+          />
+        </label>
+
         {/* Activity Level */}
         <label>
           Activity Level:
@@ -142,13 +154,9 @@ function Settings({ user, setUser, updateUser }) {
             onChange={(e) => setGoal(e.target.value)}
           >
             <option value="">Select your goal</option>
-            <option value="Maintain">Maintain Weight</option>
-            <option value="Mild Weight Loss">Mild Weight Loss</option>
-            <option value="Weight Loss">Weight Loss</option>
-            <option value="Extreme Weight Loss">Extreme Weight Loss</option>
-            <option value="Mild Weight Gain">Mild Weight Gain</option>
-            <option value="Weight Gain">Weight Gain</option>
-            <option value="Extreme Weight Gain">Extreme Weight Gain</option>
+            <option value="Maintain">Maintain</option>
+            <option value="Cut">Cut</option>
+            <option value="Bulk">Bulk</option>
           </select>
         </label>
 
