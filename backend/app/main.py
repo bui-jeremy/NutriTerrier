@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from calculate_macros import get_nutrition_plan
-from calculate_plan import create_daily_plan
+from .calculate_macros import get_nutrition_plan
+from .calculate_plan import create_daily_plan
 from datetime import date
 from pymongo import MongoClient
 from pydantic import BaseModel
