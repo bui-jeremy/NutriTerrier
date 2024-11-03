@@ -21,7 +21,7 @@ function Navbar() {
         </Link>
         <Link to="/settings" className="nav-icon">
           <FaCog />
-          <span className="nav-text">Settings</span>
+          <span className="nav-text">Profile & Goals</span> {/* Updated text */}
         </Link>
       </div>
     </nav>
