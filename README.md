@@ -1,4 +1,2 @@
-# NutriTerrier
-# NutriTerrier
-# NutriTerrier
-# NutriTerrier
+# NutriTerrier 🐾
+NutriTerrier is an app designed for Boston University students to quickly generate meal plans based on the dining hall menus. With NutriTerrier, students can track their daily nutritional intake, set personal fitness goals, and make informed food choices in real-time.

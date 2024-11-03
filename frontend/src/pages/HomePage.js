@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../App.css";
 import "./HomePage.css";
+import { calculateTotalMacros, mealCategories } from './MealGeneration';
 
 function HomePage({ user }) {
   const [userData, setUserData] = useState({
@@ -31,21 +32,28 @@ function HomePage({ user }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
+        // Fetch goal macros
+        const userResponse = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/api/user/${user.email}`
         );
-        const data = response.data;
+        const userGoals = userResponse.data;
+
+        // Fetch consumed macros
+        const consumedResponse = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/user/${user.email}/consumed-macros`
+        );
+        const consumedMacros = consumedResponse.data;
 
         // Update user data with values from backend
         setUserData({
-          currentCalories: 1500,
-          goalCalories: data.calories,
-          currentProtein: 50,
-          goalProtein: data.protein,
-          currentFat: 50, 
-          goalFat: data.fat,
-          currentCarbs: 100,
-          goalCarbs: data.carbs, 
+          currentCalories: consumedMacros.calories,
+          goalCalories: userGoals.calories,
+          currentProtein: consumedMacros.protein,
+          goalProtein: userGoals.protein,
+          currentFat: consumedMacros.fat,
+          goalFat: userGoals.fat,
+          currentCarbs: consumedMacros.carbs,
+          goalCarbs: userGoals.carbs,
         });
       } catch (error) {
         console.error("Error fetching user data:", error);

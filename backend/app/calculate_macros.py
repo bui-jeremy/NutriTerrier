@@ -1,9 +1,8 @@
-def calculate_bmr(weight_lbs, height_ft, height_in, age, gender):
-    height_total_inches = height_ft * 12 + height_in
+def calculate_bmr(weight_kg, height_cm, age, gender):
     if gender == 'male':
-        return 10 * weight_lbs * 0.453592 + 6.25 * height_total_inches * 2.54 - 5 * age + 5
+        return 10 * weight_kg + 6.25 * height_cm - 5 * age + 5
     else:
-        return 10 * weight_lbs * 0.453592 + 6.25 * height_total_inches * 2.54 - 5 * age - 161
+        return 10 * weight_kg + 6.25 * height_cm - 5 * age - 161
 
 def calculate_daily_calories(bmr, activity_level):
     activity_factors = {
@@ -34,11 +33,11 @@ def calculate_deficit(weight_loss_goal_lbs):
     daily_deficit = calories_needed_to_lose / 30
     return daily_deficit
 
-def get_nutrition_plan(weight_lbs, height_ft, height_in, age, gender, activity_level, weight_loss_goal_lbs):
-    bmr = calculate_bmr(weight_lbs, height_ft, height_in, age, gender)
+def get_nutrition_plan(weight_kg, height_cm, age, gender, activity_level, weight_loss_goal_kg):
+    bmr = calculate_bmr(weight_kg, height_cm, age, gender)
     daily_calories = calculate_daily_calories(bmr, activity_level)
     
-    daily_deficit = calculate_deficit(weight_loss_goal_lbs)
+    daily_deficit = weight_loss_goal_kg * 7700 / 30  # Approx. 7700 kcal per kg of body weight
     daily_calories -= daily_deficit
 
     macros = calculate_macros(daily_calories)
@@ -85,3 +84,4 @@ def split_macros_by_meal(macros, is_weekend=False):
                 'fat': macros['macros']['fat'] * 0.35
             }
         }
+    

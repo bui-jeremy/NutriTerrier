@@ -1,58 +1,147 @@
 .meal-generation {
-    max-width: 400px; /* Adjust this to match the width of other pages */
-    margin: 0 auto; /* Centers the container */
-    padding: 0px;
-  }
-  
-  h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
-    text-align: center; /* Center the heading */
-  }
-  
-  .meal-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ff6b6b;
-    border-radius: 10px;
-    padding: 5px;
-    margin-bottom: 15px;
-    margin-right: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #fff;
-    width: 100%; /* Ensures card fits within container */
-  }
-  
-  .meal-details h3 {
-    font-size: 18px;
-    margin: 0;
-    color: #000;
-  }
-  
-  .meal-details p {
-    font-size: 14px;
-    margin: 5px 0 0;
-    color: #000;
-  }
-  
-  .meal-menu {
-    display: flex;
-    align-items: center;
-  }
-  
-  .menu-icon {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-  }
-  
-  .menu-icon span {
-    width: 20px;
-    height: 3px;
-    background-color: #000;
-    margin: 3px 0;
-    border-radius: 2px;
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  background-color: #ffe5e5;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.meal-category {
+  margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.meal-title {
+  background-color: #ff7b7b;
+  border-radius: 8px;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: #fff;
+  transition: background-color 0.2s;
+}
+
+.meal-title:hover {
+  background-color: #ff4c4c;
+}
+.meal-add-icon {
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.meal-add-icon:hover {
+  color: #b3e6b3;
+}
+
+.meal-add-icon.added {
+  color: #ff4c4c;
+}
+
+/* Make the meal-card-container scrollable with a maximum height */
+.meal-card-container {
+  max-height: 200px; /* Set maximum height for scrollable container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  transition: opacity 0.3s ease-out;
+  opacity: 1;
+  flex-direction: column;
+}
+
+.meal-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d9534f; /* Darker shade of red */
+  border-radius: 5px;
+  padding: 8px;
+  margin: 4px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+.meal-card:hover {
+  transform: translateY(-2px);
+}
+
+.meal-details h4 {
+  font-size: 16px;
+  margin: 0;
+  color: #fff;
+}
+
+.meal-details p {
+  font-size: 12px;
+  margin: 5px 0 5px;
+  color: #ffe5e5;
+}
+
+.meal-macros {
+  display: flex;
+  gap: 10px;
+  margin-top: 3px;
+}
+
+.macro-item {
+  display: flex;
+  align-items: center;
+}
+
+.macro-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.macro-calories-dot {
+  background-color: #6fd96f;
+}
+
+.macro-protein-dot {
+  background-color: #f1ee18;
+}
+
+.macro-carbs-dot {
+  background-color: #ff9f38;
+}
+
+.macro-fat-dot {
+  background-color: #b281ff;
+}
+
+.meal-add-icon {
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.meal-add-icon:hover {
+  color: #b3e6b3;
+}
+
+.total-macros {
+  text-align: center;
+  margin-top: 20px;
+  background-color: #ffe5e5;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.macro-summary p {
+  font-size: 16px;
+  margin: 5px 0;
+}

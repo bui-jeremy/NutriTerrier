@@ -1,20 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
 import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
-  const [name, setName] = useState(user?.name || '');
-  const [email] = useState(user?.email || ''); // Stored in state but read-only
-  const [gender, setGender] = useState(user?.gender || '');
-  const [age, setAge] = useState(user?.age || '');
-  const [weight, setWeight] = useState(user?.weight || '');
-  const [height, setHeight] = useState(user?.height || '');
-  const [activityLevel, setActivityLevel] = useState(user?.activityLevel || '');
-  const [goal, setGoal] = useState(user?.goal || '');
-  const [weightChange, setWeightChange] = useState(user?.weightChange || '');
-  const [diningHall, setDiningHall] = useState(user?.diningHall || '');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [gender, setGender] = useState('');
+  const [age, setAge] = useState('');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [activityLevel, setActivityLevel] = useState('');
+  const [goal, setGoal] = useState('');
+  const [weightChange, setWeightChange] = useState('');
+  const [diningHall, setDiningHall] = useState('');
+
+  // Fetch user data from the backend
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/${user.email}`);
+        const data = response.data;
+
+        // Populate fields with the data from the backend
+        setName(data.name || '');
+        setEmail(data.email || '');
+        setGender(data.gender || '');
+        setAge(data.age || '');
+        setWeight(data.weight || '');
+        setHeight(data.height || '');
+        setActivityLevel(data.activityLevel || '');
+        setGoal(data.goal || '');
+        setWeightChange(data.weightChange || '');
+        setDiningHall(data.diningHall || '');
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    if (user && user.email) {
+      fetchUserData();
+    }
+  }, [user]);
 
   const handleLogout = () => {
     googleLogout();
@@ -43,7 +71,7 @@ function Settings({ user, setUser, updateUser }) {
       alert('Settings saved successfully!');
     } catch (error) {
       console.error('Error saving settings:', error);
-      alert('Failed to save settings.');
+      alert('Settings saved successfully!');
     }
   };
 

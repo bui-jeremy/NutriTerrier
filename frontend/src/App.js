@@ -52,7 +52,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage user={user} />} />
-              <Route path="/mealgeneration" element={<MealGeneration />} />
+              <Route path="/mealgeneration" element={<MealGeneration user={user} setUser={setUser} />} />
               <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
               <Route path="/catalog" element={<CatalogPage />} />
             </Routes>

@@ -1,24 +1,16 @@
-from calculate_macros import get_nutrition_plan, split_macros_by_meal
-from scrape_menu import scrape_menu_or_get_cached
+from datetime import date
+import logging
 
-def filter_meals(meals):
-    filtered_meals = []
-    zero_calorie_meals = []
-
-    for meal in meals:
-        if meal['calories'] > 0:
-            filtered_meals.append(meal)
-        else:
-            zero_calorie_meals.append(meal)
-
-    #if zero_calorie_meals:
-        #print("\n[DEBUG] Zero-Calorie Foods Detected:")
-        #for zero_cal_meal in zero_calorie_meals:
-            #print(f"Name: {zero_cal_meal['name']}, Location: {zero_cal_meal['location']}")
-    
-    return filtered_meals
+# Define the distribution of macros by meal period
+MEAL_PERIOD_DISTRIBUTION = {
+    "breakfast": 0.3,
+    "lunch": 0.3,
+    "brunch": 0.6,
+    "dinner": 0.4
+}
 
 def group_meals_by_location(meals):
+    """Group meals by location with aggregated nutritional values."""
     grouped_meals = {}
     
     for meal in meals:
@@ -40,43 +32,133 @@ def group_meals_by_location(meals):
     
     return grouped_meals
 
-def create_daily_plan(url, nutrition_plan, meal_periods, date_today, dining_hall):
-    is_weekend = date_today.weekday() >= 5
-    meal_macros = split_macros_by_meal(nutrition_plan, is_weekend)
-    
-    daily_plan = {}
+def filter_meals(meals):
+    """Filter and prioritize high-calorie, nutrient-dense foods, excluding bakery items and 0-calorie items."""
+    high_priority_items = []
+    moderate_priority_items = []
+    low_priority_items = []
 
-    for meal_period in meal_periods:
-        #print(f"\nSelecting meals for {meal_period.capitalize()} based on the following macros:")
-        #print(meal_macros[meal_period])
+    for meal in meals:
+        # Exclude items from the bakery location and items with 0 calories
+        if meal['location'].lower() == 'bakery' or meal['calories'] == 0:
+            continue
         
-        menu = scrape_menu_or_get_cached(url, str(date_today), meal_period, dining_hall)
-        menu = filter_meals(menu) 
-        
-        grouped_meals = group_meals_by_location(menu)
-        selected_meals = []
+        # High priority: Higher calories and decent protein
+        if meal['calories'] >= 150 and meal['protein'] >= 5:
+            high_priority_items.append(meal)
+        # Moderate priority: Moderate calorie items
+        elif 50 <= meal['calories'] < 150:
+            moderate_priority_items.append(meal)
+        # Low priority: Very low-calorie items (< 50 calories)
+        elif meal['calories'] < 50:
+            low_priority_items.append(meal)
 
-        total_calories, total_protein, total_carbs, total_fat = 0, 0, 0, 0
-        
-        for location, meal_info in grouped_meals.items():
-            if (total_calories + meal_info['total_calories'] <= meal_macros[meal_period]['calories'] and
-                total_protein + meal_info['total_protein'] <= meal_macros[meal_period]['protein'] and
-                total_carbs + meal_info['total_carbs'] <= meal_macros[meal_period]['carbs']):
-                
-                selected_meals.append({
-                    'location': location,
-                    'items': meal_info['items'],
-                    'calories': meal_info['total_calories'],
-                    'protein': meal_info['total_protein'],
-                    'carbs': meal_info['total_carbs'],
-                    'fat': meal_info['total_fat'],
-                })
-                
-                total_calories += meal_info['total_calories']
-                total_protein += meal_info['total_protein']
-                total_carbs += meal_info['total_carbs']
-                total_fat += meal_info['total_fat']
-        
-        daily_plan[meal_period] = selected_meals
+    return {
+        "high_priority_items": high_priority_items,
+        "moderate_priority_items": moderate_priority_items,
+        "low_priority_items": low_priority_items
+    }
+
+def create_daily_plan(meal_data, nutrition_plan, meal_period, calorie_multiplier=1.1):
+    """Create a meal plan for the given meal period to meet or slightly exceed nutrition targets."""
+    # Calculate target macros based on the meal period distribution
+    distribution = MEAL_PERIOD_DISTRIBUTION.get(meal_period, 0.25)
+    target_macros = {
+        "calories": nutrition_plan["calories"] * distribution * calorie_multiplier,
+        "protein": nutrition_plan["protein"] * distribution,
+        "carbs": nutrition_plan["carbs"] * distribution,
+        "fat": nutrition_plan["fat"] * distribution,
+    }
+
+    # Categorize meals
+    categorized_meals = filter_meals(meal_data)
+    high_priority_items = categorized_meals["high_priority_items"]
+    moderate_priority_items = categorized_meals["moderate_priority_items"]
+    low_priority_items = categorized_meals["low_priority_items"]
+
+    # Sort items by protein-to-calorie ratio, prioritizing protein density
+    all_items = high_priority_items + moderate_priority_items
+    sorted_items = sorted(all_items, key=lambda x: x['protein'] / max(x['calories'], 1), reverse=True)
+
+    selected_meals = []
+    total_calories, total_protein, total_carbs, total_fat = 0, 0, 0, 0
+
+    # Primary pass: Add high and moderate priority items to meet calorie and protein targets
+    for item in sorted_items:
+        if total_calories >= target_macros['calories'] + (target_macros['calories'] * 0.15):
+            break
+
+        selected_meals.append({
+            'name': item['name'],
+            'location': item['location'],
+            'calories': item['calories'],
+            'protein': item['protein'],
+            'carbs': item['carbs'],
+            'fat': item['fat']
+        })
+        total_calories += item['calories']
+        total_protein += item['protein']
+        total_carbs += item['carbs']
+        total_fat += item['fat']
+
+    # Add 1-2 low-calorie items even if goals are met
+    selected_low_calorie_items = []
+    low_calorie_count = 0
+    for item in low_priority_items:
+        if low_calorie_count >= 3:
+            break
+        selected_low_calorie_items.append({
+            'name': item['name'],
+            'location': item['location'],
+            'calories': item['calories'],
+            'protein': item['protein'],
+            'carbs': item['carbs'],
+            'fat': item['fat']
+        })
+        total_calories += item['calories']
+        low_calorie_count += 1
+
+    # Secondary pass: Add remaining items to ensure calorie goal is met
+    for item in sorted_items:
+        if total_calories >= target_macros['calories'] + (target_macros['calories'] * 0.15):
+            break
+        if item not in selected_meals:
+            selected_meals.append({
+                'name': item['name'],
+                'location': item['location'],
+                'calories': item['calories'],
+                'protein': item['protein'],
+                'carbs': item['carbs'],
+                'fat': item['fat']
+            })
+            total_calories += item['calories']
+            total_protein += item['protein']
+            total_carbs += item['carbs']
+            total_fat += item['fat']
+
+    # Final pass: If we still haven’t met the calorie goal, repeat high-priority items (e.g., meats)
+    while total_calories < target_macros['calories']:
+        for item in high_priority_items:
+            if total_calories >= target_macros['calories']:
+                break
+            selected_meals.append({
+                'name': item['name'],
+                'location': item['location'],
+                'calories': item['calories'],
+                'protein': item['protein'],
+                'carbs': item['carbs'],
+                'fat': item['fat']
+            })
+            total_calories += item['calories']
+            total_protein += item['protein']
+            total_carbs += item['carbs']
+            total_fat += item['fat']
+
+    # Store meal plan for the current meal period
+    meal_plan = {
+        'main_meals': selected_meals,
+        'low_calorie_items': selected_low_calorie_items
+    }
     
-    return daily_plan
+    logging.info(f"Total calories achieved: {total_calories}, Total protein achieved: {total_protein}")
+    return meal_plan
