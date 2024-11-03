@@ -87,3 +87,11 @@ async def get_dining_hall_items(dining_hall: str, time_of_day: str):
         raise HTTPException(status_code=404, detail="No items found for this meal period")
 
     return {"items": items}
+
+@app.get("/api/user/{email}")
+async def get_user_data(email: str):
+    user = user_collection.find_one({"email": email})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.pop("_id")  # Remove the MongoDB ID for cleaner data
+    return user

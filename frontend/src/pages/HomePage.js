@@ -1,68 +1,88 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../App.css";
 import "./HomePage.css";
 
-function HomePage() {
-  const currentCalories = 1900;
-  const goalCalories = 2500;
-  const currentProtein = 60;
-  const goalProtein = 100;
-  const currentFat = 30;
-  const goalFat = 70;
-  const currentCarbs = 150;
-  const goalCarbs = 300;
-  const userName = "Jeremy";
+function HomePage({ user }) {
+  const [userData, setUserData] = useState({
+    currentCalories: 0,
+    goalCalories: 2500, // Default values; replace with fetched data
+    currentProtein: 0,
+    goalProtein: 100,
+    currentFat: 0,
+    goalFat: 70,
+    currentCarbs: 0,
+    goalCarbs: 300,
+  });
+  const [circularProgress, setCircularProgress] = useState(0);
+  const [motivation, setMotivation] = useState("");
 
   const motivationalMessages = [
     "Consistency is key. Keep pushing!",
     "You're stronger than you think!",
     "Every rep brings you closer to your goal.",
     "Believe in yourself and all that you are.",
-    "Progress, not perfection. Keep going!"
+    "Progress, not perfection. Keep going!",
   ];
 
-  const [circularProgress, setCircularProgress] = useState(0);
-  const [proteinProgress, setProteinProgress] = useState(0);
-  const [fatProgress, setFatProgress] = useState(0);
-  const [carbsProgress, setCarbsProgress] = useState(0);
-  const [motivation, setMotivation] = useState("");
-
   const calculatePercentage = (current, goal) => (current / goal) * 100;
+
+  // Fetch user data from backend
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/user/${user.email}`
+        );
+        const data = response.data;
+
+        // Update user data with values from backend
+        setUserData({
+          currentCalories: 1500,
+          goalCalories: data.calories,
+          currentProtein: 50,
+          goalProtein: data.protein,
+          currentFat: 50, 
+          goalFat: data.fat,
+          currentCarbs: 100,
+          goalCarbs: data.carbs, 
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (user && user.email) fetchUserData();
+  }, [user]);
 
   useEffect(() => {
     // Set random motivational message
     setMotivation(motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)]);
 
     // Animate the circular progress for calories
-    const targetCaloriesProgress = calculatePercentage(currentCalories, goalCalories);
+    const targetCaloriesProgress = calculatePercentage(
+      userData.currentCalories,
+      userData.goalCalories
+    );
     const interval = setInterval(() => {
       setCircularProgress((prev) => {
         if (prev >= targetCaloriesProgress) {
           clearInterval(interval);
           return targetCaloriesProgress;
         }
-        return prev + 0.33; // Adjust the increment to control speed
+        return prev + 0.33;
       });
     }, 10);
 
-    // Animate the linear progress for each nutrient
-    setTimeout(() => setProteinProgress(calculatePercentage(currentProtein, goalProtein)), 200);
-    setTimeout(() => setFatProgress(calculatePercentage(currentFat, goalFat)), 400);
-    setTimeout(() => setCarbsProgress(calculatePercentage(currentCarbs, goalCarbs)), 600);
-
     return () => clearInterval(interval);
-  }, []);
+  }, [userData]);
 
   // Greeting message based on time of day
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour >= 6 && hour < 12) {
-      return { message: "Good morning", icon: "☀️" };
-    } else if (hour >= 12 && hour < 18) {
-      return { message: "Good afternoon", icon: "🌞" };
-    } else {
-      return { message: "Good night", icon: "🌙" };
-    }
+    if (hour >= 6 && hour < 12) return { message: "Good morning", icon: "☀️" };
+    if (hour >= 12 && hour < 18) return { message: "Good afternoon", icon: "🌞" };
+    return { message: "Good evening", icon: "🌙" };
   };
 
   const greeting = getGreeting();
@@ -72,7 +92,7 @@ function HomePage() {
       <div className="content">
         {/* Personalized Greeting */}
         <div className="greeting">
-          <span style={{ color: "red" }}>{greeting.message}, {userName}!</span> 
+          <span style={{ color: "red" }}>{greeting.message}, {user?.name || "User"}!</span>
           <span className="greeting-icon">{greeting.icon}</span>
         </div>
         <div className="motivational-message" style={{ color: "gray", fontSize: "14px", marginBottom: "20px" }}>
@@ -84,11 +104,14 @@ function HomePage() {
           <div
             className="circular-progress"
             style={{
-              "--progress": (circularProgress / 100) * 360
+              "--progress": (circularProgress / 100) * 360,
             }}
           >
             <span className="calories-text">
-              {currentCalories}<span className="calories-small"> calories <br /> out of  {goalCalories} calories</span>
+              {userData.currentCalories}
+              <span className="calories-small">
+                calories <br /> out of {userData.goalCalories} calories
+              </span>
             </span>
           </div>
         </div>
@@ -99,11 +122,12 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${proteinProgress}%` }}
+              style={{ width: `${calculatePercentage(userData.currentProtein, userData.goalProtein)}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentProtein}g / {goalProtein}g ({proteinProgress.toFixed(1)}%)
+            {userData.currentProtein}g / {userData.goalProtein}g (
+            {calculatePercentage(userData.currentProtein, userData.goalProtein).toFixed(1)}%)
           </div>
         </div>
 
@@ -113,11 +137,12 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${fatProgress}%` }}
+              style={{ width: `${calculatePercentage(userData.currentFat, userData.goalFat)}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentFat}g / {goalFat}g ({fatProgress.toFixed(1)}%)
+            {userData.currentFat}g / {userData.goalFat}g (
+            {calculatePercentage(userData.currentFat, userData.goalFat).toFixed(1)}%)
           </div>
         </div>
 
@@ -127,11 +152,12 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${carbsProgress}%` }}
+              style={{ width: `${calculatePercentage(userData.currentCarbs, userData.goalCarbs)}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentCarbs}g / {goalCarbs}g ({carbsProgress.toFixed(1)}%)
+            {userData.currentCarbs}g / {userData.goalCarbs}g (
+            {calculatePercentage(userData.currentCarbs, userData.goalCarbs).toFixed(1)}%)
           </div>
         </div>
       </div>
