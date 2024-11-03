@@ -126,7 +126,7 @@ function HomePage({ user }) {
             ></div>
           </div>
           <div className="progress-text">
-            {userData.currentProtein}g / {userData.goalProtein}g (
+            {userData.currentProtein}g / {Math.ceil(userData.goalProtein)}g (
             {calculatePercentage(userData.currentProtein, userData.goalProtein).toFixed(1)}%)
           </div>
         </div>
@@ -141,7 +141,7 @@ function HomePage({ user }) {
             ></div>
           </div>
           <div className="progress-text">
-            {userData.currentFat}g / {userData.goalFat}g (
+            {userData.currentFat}g / {Math.ceil(userData.goalFat)}g (
             {calculatePercentage(userData.currentFat, userData.goalFat).toFixed(1)}%)
           </div>
         </div>
@@ -156,7 +156,7 @@ function HomePage({ user }) {
             ></div>
           </div>
           <div className="progress-text">
-            {userData.currentCarbs}g / {userData.goalCarbs}g (
+            {userData.currentCarbs}g / {Math.ceil(userData.goalCarbs)}g (
             {calculatePercentage(userData.currentCarbs, userData.goalCarbs).toFixed(1)}%)
           </div>
         </div>
