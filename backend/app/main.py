@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .calculate_macros import get_nutrition_plan
-from .calculate_plan import create_daily_plan
+from calculate_macros import get_nutrition_plan
+from calculate_plan import create_daily_plan
 from datetime import date
 from pymongo import MongoClient
 from pydantic import BaseModel
@@ -18,19 +18,22 @@ app = FastAPI()
 # MongoDB client connection
 client = MongoClient(os.getenv("MONGO_URI"))
 
-db = client['user_database']  # Database where user data will be stored
-user_collection = db['user_data']  # Collection for user data
+# Access both databases explicitly
+user_db = client['user_database']      # Database where user data will be stored
+meal_db = client['meal_database']      # Database where meal data will be stored
+
+user_collection = user_db['user_data'] # Collection for user data
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React frontend URL
+    allow_origins=["http://localhost:3000"],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Define a Pydantic model for user data
+# Define a model for user settings
 class UserSettings(BaseModel):
     name: str
     email: str
@@ -44,20 +47,14 @@ class UserSettings(BaseModel):
 
 @app.post("/api/user/settings")
 async def save_user_settings(user: UserSettings):
-    # Log received data
     logging.info(f"Received user data: {user}")
-
-    # Check if user already exists in the database (using email as a unique identifier)
     existing_user = user_collection.find_one({"email": user.email})
-
-    # Update or insert user data
     if existing_user:
         user_collection.update_one({"email": user.email}, {"$set": user.dict()})
         logging.info(f"Updated user settings for {user.email}")
     else:
         user_collection.insert_one(user.dict())
         logging.info(f"Inserted new user settings for {user.email}")
-
     return {"message": "User settings saved successfully"}
 
 # Dining hall URLs
@@ -68,37 +65,25 @@ DINING_LOCATIONS = {
     "granby": "https://www.bu.edu/dining/location/granby/#menu"
 }
 
-def get_meal_periods(date_obj):
-    is_weekend = date_obj.weekday() >= 5
-    return ['brunch', 'dinner'] if is_weekend else ['breakfast', 'lunch', 'dinner']
+@app.get("/api/dining-hall/{dining_hall}/{time_of_day}")
+async def get_dining_hall_items(dining_hall: str, time_of_day: str):
+    print("backend!")  # Debug print to confirm request is received
 
-@app.post("/run-python")
-async def generate_meal_plan(request: Request):
-    body = await request.json()
-    
-    # Parse the user input from the request body
-    weight_lbs = float(body.get("weight"))
-    height_ft = float(body.get("height_ft"))
-    height_in = float(body.get("height_in"))
-    age = int(body.get("age"))
-    gender = body.get("gender")
-    activity_level = body.get("activity_level")
-    weight_loss_goal_lbs = float(body.get("weight_loss_goal"))
-    dining_hall = body.get('dining_hall').lower()  # Ensure the key is lowercase to match DINING_LOCATIONS
-
-    # Check if dining hall is valid
+    # Validate dining hall selection
     if dining_hall not in DINING_LOCATIONS:
         raise HTTPException(status_code=400, detail="Invalid dining hall selection")
 
-    # Generate nutrition plan
-    nutrition_plan = get_nutrition_plan(weight_lbs, height_ft, height_in, age, gender, activity_level, weight_loss_goal_lbs)
-    url = DINING_LOCATIONS[dining_hall]
-    date_today = date.today()
+    # Access the correct collection based on the dining hall name
+    collection_name = f"{dining_hall}_meals"  # e.g., "marciano_meals"
+    today_date = date.today().isoformat()  # Today's date in "YYYY-MM-DD" format
 
-    # Determine meal periods based on the day
-    meal_periods = get_meal_periods(date_today)
+    # Retrieve items for today's date and specified meal period
+    items = list(meal_db[collection_name].find(
+        {"date": today_date, "meal_period": time_of_day},
+        {"_id": 0}
+    ))
 
-    # Create daily meal plan
-    daily_meal_plan = create_daily_plan(url, nutrition_plan, meal_periods, date_today, dining_hall)
+    if not items:
+        raise HTTPException(status_code=404, detail="No items found for this meal period")
 
-    return {"meal_plan": daily_meal_plan}
+    return {"items": items}

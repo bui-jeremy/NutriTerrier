@@ -1,28 +1,48 @@
+/* Navbar positioned at the bottom of the screen with reduced height */
 .navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background-color: #FF6347; /* Change background to red */
-    color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 450px;
+  background-color: #FF6347;
+  padding: 0.4rem 0; /* Reduce padding to make it smaller vertically */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Navbar links and icon styling */
+.navbar-links {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.nav-icon {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem; /* Adjust icon size if needed */
+}
+
+.nav-icon:hover {
+  color: #ffd1c1;
+}
+
+.nav-text {
+  font-size: 0.7rem; /* Reduce font size if needed */
+  margin-top: 0.2rem;
+}
+
+/* Responsive design to hide text on smaller screens */
+@media (max-width: 400px) {
+  .nav-text {
+    display: none;
   }
-  
-  .navbar h1 {
-    margin: 0;
-  }
-  
-  .navbar-links {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .navbar-links a {
-    color: #fff; /* Change link color to white */
-    text-decoration: none;
-    font-weight: bold; /* To match the bold look in your screenshot */
-  }
-  
-  .navbar-links a:hover {
-    text-decoration: underline;
-  }
-  
+}

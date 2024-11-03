@@ -38,7 +38,7 @@ function Settings({ user, setUser, updateUser }) {
 
     try {
       // Send POST request to backend API
-      await axios.post('http://localhost:8000/api/user/settings', updatedUser);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/settings`, updatedUser);
       setUser(updatedUser);
       updateUser(updatedUser); // Optionally update user locally
       alert('Settings saved successfully!');

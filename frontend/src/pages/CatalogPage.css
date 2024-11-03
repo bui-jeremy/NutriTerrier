@@ -1,0 +1,98 @@
+.catalog-page {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.catalog-page h1 {
+  font-size: 1.8rem;
+  color: #FF6347;
+  margin-bottom: 20px;
+}
+
+.catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Group background and styling */
+.catalog-item-group {
+  background-color: #f1f1f1; /* Light gray background */
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.details summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #FF6347;
+  margin-bottom: 5px;
+  padding: 8px;
+}
+
+.hamburger-icon {
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+
+.location-name {
+  flex-grow: 1;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+.location-icon {
+  font-size: 1.2rem;
+  margin-left: auto;
+}
+
+.location-items {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+/* Individual item within each location */
+.catalog-item {
+  padding: 8px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.item-name {
+  font-size: 1rem;
+  color: #333;
+}
+
+.item-calories {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .catalog-page h1 {
+    font-size: 1.6rem;
+  }
+  
+  .details summary {
+    font-size: 0.9rem;
+  }
+  
+  .catalog-item {
+    font-size: 0.9rem;
+    padding: 6px;
+  }
+}
