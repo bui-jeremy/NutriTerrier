@@ -25,13 +25,13 @@ function Settings({ user, setUser, updateUser }) {
     const updatedUser = {
       name,
       email, // Add email to payload
-      age,
       gender,
+      age,
       weight,
       height,
       activityLevel,
       goal,
-      diningHall
+      diningHall,
     };
 
     try {
