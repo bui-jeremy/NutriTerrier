@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaUtensils } from 'react-icons/fa'; // Add icons for better visuals
 import './MealGeneration.css';
 
 function MealGeneration() {
-  const meals = [
-    { name: 'Meal 1', calories: '600 kcal' },
-    { name: 'Meal 2', calories: '750 kcal' },
-    { name: 'Meal 3', calories: '500 kcal' },
+  // Placeholder meal data for breakfast, lunch, and dinner
+  const mealCategories = [
+    {
+      title: 'Breakfast',
+      meals: [
+        { name: 'Oatmeal with Berries', calories: '250 kcal' },
+        { name: 'Scrambled Eggs', calories: '200 kcal' },
+      ],
+    },
+    {
+      title: 'Lunch',
+      meals: [
+        { name: 'Grilled Chicken Salad', calories: '450 kcal' },
+        { name: 'Turkey Sandwich', calories: '300 kcal' },
+      ],
+    },
+    {
+      title: 'Dinner',
+      meals: [
+        { name: 'Steak and Vegetables', calories: '600 kcal' },
+        { name: 'Salmon with Rice', calories: '500 kcal' },
+      ],
+    },
   ];
 
   return (
@@ -15,18 +34,20 @@ function MealGeneration() {
         <FaUtensils style={{ marginRight: '10px', color: '#ff6b6b' }} />
         Active Meals
       </h2>
-      {meals.map((meal, index) => (
-        <div key={index} className="meal-card">
-          <div className="meal-details">
-            <h3>{meal.name}</h3>
-            <p>{meal.calories}</p>
+      {mealCategories.map((category, index) => (
+        <div key={index} className="meal-category">
+          <div className="meal-title">
+            <h3>{category.title}</h3>
           </div>
-          <div className="meal-menu">
-            <div className="menu-icon">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+          <div className="meal-card-container">
+            {category.meals.map((meal, mealIndex) => (
+              <div key={mealIndex} className="meal-card">
+                <div className="meal-details">
+                  <h4>{meal.name}</h4>
+                  <p>{meal.calories}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ))}
