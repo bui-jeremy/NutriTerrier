@@ -7,7 +7,11 @@ import axios from "axios";
 function HomePage() {
   const [calories, setCalories] = useState(0);
   const [macros, setMacros] = useState({ protein: 0, carbs: 0, fat: 0 });
-  const userEmail = localStorage.getItem("userEmail")
+  const userEmail = localStorage.getItem("userEmail");
+
+  // Check if userEmail is being retrieved properly
+  console.log("User Email:", userEmail);
+
   const calculatePercentage = (current, goal) => (current / goal) * 100;
 
   // Fetch nutrition data from the backend on component mount
@@ -20,9 +24,18 @@ function HomePage() {
             email: userEmail  // Send email as an identifier
           });
 
-          const { calories, macros } = response.data.nutrition_plan;
-          setCalories(calories);
-          setMacros(macros);
+          // Log the response to verify its structure
+          console.log("Response Data:", response.data);
+
+          if (response.data && response.data.nutrition_plan) {
+            const { calories, macros } = response.data.nutrition_plan;
+            setCalories(calories);
+            setMacros(macros);
+          } else {
+            console.error("Unexpected response structure:", response.data);
+          }
+        } else {
+          console.warn("No userEmail found in localStorage");
         }
       } catch (error) {
         console.error("Error fetching nutrition plan:", error);
@@ -60,9 +73,7 @@ function HomePage() {
           <div
             className="circular-progress"
             style={{
-              background: `conic-gradient(#FF6347 ${
-                (calories / 2500) * 360
-              }deg, #ddd 0deg)`,
+              background: `conic-gradient(#FF6347 ${(calories / 2500) * 360}deg, #ddd 0deg)`,
             }}
           >
             <span className="calories-text">
