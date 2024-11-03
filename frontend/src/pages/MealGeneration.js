@@ -1,8 +1,8 @@
 import React from 'react';
-import './MealGeneration.css'; // Ensure this file is created
+import { FaUtensils } from 'react-icons/fa'; // Add icons for better visuals
+import './MealGeneration.css';
 
 function MealGeneration() {
-  // Temporary meal data to display
   const meals = [
     { name: 'Meal 1', calories: '600 kcal' },
     { name: 'Meal 2', calories: '750 kcal' },
@@ -11,7 +11,10 @@ function MealGeneration() {
 
   return (
     <div className="meal-generation">
-      <h2>Active Meals</h2>
+      <h2>
+        <FaUtensils style={{ marginRight: '10px', color: '#ff6b6b' }} />
+        Active Meals
+      </h2>
       {meals.map((meal, index) => (
         <div key={index} className="meal-card">
           <div className="meal-details">

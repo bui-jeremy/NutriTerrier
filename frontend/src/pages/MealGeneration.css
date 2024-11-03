@@ -1,58 +1,69 @@
 .meal-generation {
-    max-width: 400px; /* Adjust this to match the width of other pages */
-    margin: 0 auto; /* Centers the container */
-    padding: 0px;
-  }
-  
-  h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
-    text-align: center; /* Center the heading */
-  }
-  
-  .meal-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ff6b6b;
-    border-radius: 10px;
-    padding: 5px;
-    margin-bottom: 15px;
-    margin-right: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #fff;
-    width: 100%; /* Ensures card fits within container */
-  }
-  
-  .meal-details h3 {
-    font-size: 18px;
-    margin: 0;
-    color: #000;
-  }
-  
-  .meal-details p {
-    font-size: 14px;
-    margin: 5px 0 0;
-    color: #000;
-  }
-  
-  .meal-menu {
-    display: flex;
-    align-items: center;
-  }
-  
-  .menu-icon {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-  }
-  
-  .menu-icon span {
-    width: 20px;
-    height: 3px;
-    background-color: #000;
-    margin: 3px 0;
-    border-radius: 2px;
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  background-color: #ffe5e5;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.meal-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff7b7b;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.meal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.meal-details h3 {
+  font-size: 20px;
+  margin: 0;
+  color: #fff;
+}
+
+.meal-details p {
+  font-size: 16px;
+  margin: 5px 0 0;
+  color: #ffe5e5;
+}
+
+.meal-menu {
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.menu-icon span {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 3px 0;
+  border-radius: 2px;
+}
+
+.menu-icon span:hover {
+  background-color: #ffe5e5;
+}
