@@ -1,5 +1,5 @@
-from .calculate_macros import get_nutrition_plan, split_macros_by_meal
-from .scrape_menu import scrape_menu_or_get_cached
+from calculate_macros import get_nutrition_plan, split_macros_by_meal
+from scrape_menu import scrape_menu_or_get_cached
 
 def filter_meals(meals):
     filtered_meals = []

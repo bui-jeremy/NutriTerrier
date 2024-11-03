@@ -11,16 +11,28 @@ function HomePage() {
   const goalFat = 70;
   const currentCarbs = 150;
   const goalCarbs = 300;
+  const userName = "Jeremy";
 
-  const calculatePercentage = (current, goal) => (current / goal) * 100;
+  const motivationalMessages = [
+    "Consistency is key. Keep pushing!",
+    "You're stronger than you think!",
+    "Every rep brings you closer to your goal.",
+    "Believe in yourself and all that you are.",
+    "Progress, not perfection. Keep going!"
+  ];
 
-  // States to control animated progress
   const [circularProgress, setCircularProgress] = useState(0);
   const [proteinProgress, setProteinProgress] = useState(0);
   const [fatProgress, setFatProgress] = useState(0);
   const [carbsProgress, setCarbsProgress] = useState(0);
+  const [motivation, setMotivation] = useState("");
+
+  const calculatePercentage = (current, goal) => (current / goal) * 100;
 
   useEffect(() => {
+    // Set random motivational message
+    setMotivation(motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)]);
+
     // Animate the circular progress for calories
     const targetCaloriesProgress = calculatePercentage(currentCalories, goalCalories);
     const interval = setInterval(() => {
@@ -31,7 +43,7 @@ function HomePage() {
         }
         return prev + 0.33; // Adjust the increment to control speed
       });
-    }, 10); // Adjust the interval to control speed
+    }, 10);
 
     // Animate the linear progress for each nutrient
     setTimeout(() => setProteinProgress(calculatePercentage(currentProtein, goalProtein)), 200);
@@ -45,11 +57,11 @@ function HomePage() {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 6 && hour < 12) {
-      return { message: "Good morning!", icon: "☀️" };
+      return { message: "Good morning", icon: "☀️" };
     } else if (hour >= 12 && hour < 18) {
-      return { message: "Good afternoon!", icon: "🌞" };
+      return { message: "Good afternoon", icon: "🌞" };
     } else {
-      return { message: "Good night!", icon: "🌙" };
+      return { message: "Good night", icon: "🌙" };
     }
   };
 
@@ -58,10 +70,13 @@ function HomePage() {
   return (
     <div>
       <div className="content">
-        {/* Greeting Message */}
+        {/* Personalized Greeting */}
         <div className="greeting">
-          {greeting.message}
+          <span style={{ color: "red" }}>{greeting.message}, {userName}</span> 
           <span className="greeting-icon">{greeting.icon}</span>
+        </div>
+        <div className="motivational-message" style={{ color: "gray", fontSize: "14px", marginBottom: "20px" }}>
+          {motivation}
         </div>
 
         {/* Circular Progress for Calories */}
@@ -73,8 +88,7 @@ function HomePage() {
             }}
           >
             <span className="calories-text">
-              {currentCalories} / {goalCalories} <br />
-              calories
+              {currentCalories}<span className="calories-small"> calories <br /> out of  {goalCalories} calories</span>
             </span>
           </div>
         </div>
@@ -120,9 +134,6 @@ function HomePage() {
             {currentCarbs}g / {goalCarbs}g ({carbsProgress.toFixed(1)}%)
           </div>
         </div>
-
-        {/* Additional Content */}
-        <p className="text">Track your daily calorie and macro intake!</p>
       </div>
     </div>
   );

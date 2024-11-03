@@ -5,8 +5,9 @@ import Signup from './pages/authentication/Signup';
 import HomePage from './pages/HomePage';
 import Settings from './pages/Settings';
 import MealGeneration from './pages/MealGeneration';
+import CatalogPage from './pages/CatalogPage';
 import Navbar from './components/Navbar';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -24,10 +25,6 @@ function App() {
     }
   }, []);
 
-  const toggleSettings = () => {
-    setShowSettings(!showSettings);
-  };
-
   return (
     <Router>
       <div className="App">
@@ -44,6 +41,7 @@ function App() {
               <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
               <Route path="/mealgeneration" element={<MealGeneration />} />
               <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
+              <Route path="/catalog" element={<CatalogPage />} />
             </Routes>
           </div>
         )}
