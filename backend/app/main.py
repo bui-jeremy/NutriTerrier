@@ -121,21 +121,20 @@ async def generate_meal_plan(request: Request):
     body = await request.json()
     
     # Parse the user input from the request body
-    weight_lbs = float(body.get("weight"))
-    height_ft = float(body.get("height_ft"))
-    height_in = float(body.get("height_in"))
+    weight_kg = float(body.get("weight"))
+    height_cm = float(body.get("height"))
     age = int(body.get("age"))
     gender = body.get("gender")
     activity_level = body.get("activity_level")
-    weight_loss_goal_lbs = float(body.get("weight_loss_goal"))
+    weight_loss_goal_kg = float(body.get("weight_loss_goal"))
     dining_hall = body.get('dining_hall').lower()  # Ensure the key is lowercase to match DINING_LOCATIONS
 
     # Check if dining hall is valid
     if dining_hall not in DINING_LOCATIONS:
         raise HTTPException(status_code=400, detail="Invalid dining hall selection")
 
-    # Generate nutrition plan
-    nutrition_plan = get_nutrition_plan(weight_lbs, height_ft, height_in, age, gender, activity_level, weight_loss_goal_lbs)
+    # Generate nutrition plan using kg and cm directly
+    nutrition_plan = get_nutrition_plan(weight_kg, height_cm, age, gender, activity_level, weight_loss_goal_kg)
     url = DINING_LOCATIONS[dining_hall]
     date_today = date.today()
 
