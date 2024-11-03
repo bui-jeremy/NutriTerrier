@@ -43,9 +43,10 @@ function Settings({ user, setUser, updateUser }) {
       alert('Settings saved successfully!');
     } catch (error) {
       console.error('Error saving settings:', error);
-      alert('Failed to save settings.');
+      // No alert for failed save, handled silently
     }
-  };
+  }
+    
 
   return (
     <div className="settings">

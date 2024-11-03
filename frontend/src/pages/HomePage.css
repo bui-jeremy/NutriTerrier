@@ -47,12 +47,20 @@ body {
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: conic-gradient(#FF6347 calc(var(--progress) * 1deg), #ddd 0deg);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-}
+    background: 
+      conic-gradient(
+        #8B0000 0deg calc((var(--progress) - 360) * 1deg),
+        transparent 0deg
+      ),
+      conic-gradient(
+        #FF6347 0deg calc(min(var(--progress), 360) * 1deg),
+        #ddd 0deg
+      );
+  }
 
 .circular-progress::before {
     content: "";
@@ -105,9 +113,12 @@ body {
 
 .progress-bar-fill {
     height: 100%;
-    background: #FF6347;
-    width: 0;
+    background: #FF6347; /* Default color */
     transition: width 2s ease-in-out;
+}
+
+.progress-bar-fill.exceed {
+    background: #8B0000; /* Red color for overflow */
 }
 
 .progress-text {

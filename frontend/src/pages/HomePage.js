@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../App.css";
 import "./HomePage.css";
+import { calculateTotalMacros, mealCategories } from './MealGeneration';
+
 
 function HomePage({ user }) {
+  
+
   const [userData, setUserData] = useState({
     currentCalories: 0,
     goalCalories: 2500, // Default values; replace with fetched data
@@ -29,6 +33,7 @@ function HomePage({ user }) {
 
   // Fetch user data from backend
   useEffect(() => {
+    const totalMacros = calculateTotalMacros(mealCategories);
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
@@ -38,13 +43,13 @@ function HomePage({ user }) {
 
         // Update user data with values from backend
         setUserData({
-          currentCalories: 1500,
+          currentCalories: totalMacros.calories,
           goalCalories: data.calories,
-          currentProtein: 50,
+          currentProtein: totalMacros.protein,
           goalProtein: data.protein,
-          currentFat: 50, 
+          currentFat: totalMacros.fat, 
           goalFat: data.fat,
-          currentCarbs: 100,
+          currentCarbs: totalMacros.carbs,
           goalCarbs: data.carbs, 
         });
       } catch (error) {
@@ -70,9 +75,9 @@ function HomePage({ user }) {
           clearInterval(interval);
           return targetCaloriesProgress;
         }
-        return prev + 0.33;
+        return prev + .25;
       });
-    }, 10);
+    }, 2);
 
     return () => clearInterval(interval);
   }, [userData]);
@@ -117,49 +122,55 @@ function HomePage({ user }) {
         </div>
 
         {/* Protein Progress */}
-        <div className="progress-bar-container">
-          <div className="progress-bar-label">Protein</div>
-          <div className="progress-bar">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(userData.currentProtein, userData.goalProtein)}%` }}
-            ></div>
-          </div>
-          <div className="progress-text">
-            {userData.currentProtein}g / {Math.ceil(userData.goalProtein)}g (
-            {calculatePercentage(userData.currentProtein, userData.goalProtein).toFixed(1)}%)
-          </div>
-        </div>
+<div className="progress-bar-container">
+  <div className="progress-bar-label">Protein</div>
+  <div className="progress-bar">
+    <div
+      className={`progress-bar-fill ${
+        userData.currentProtein > userData.goalProtein ? "exceed" : ""
+      }`}
+      style={{ width: `${calculatePercentage(userData.currentProtein, userData.goalProtein)}%` }}
+    ></div>
+  </div>
+  <div className="progress-text">
+    {userData.currentProtein}g / {Math.ceil(userData.goalProtein)}g (
+    {calculatePercentage(userData.currentProtein, userData.goalProtein).toFixed(1)}%)
+  </div>
+</div>
 
-        {/* Fat Progress */}
-        <div className="progress-bar-container">
-          <div className="progress-bar-label">Fat</div>
-          <div className="progress-bar">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(userData.currentFat, userData.goalFat)}%` }}
-            ></div>
-          </div>
-          <div className="progress-text">
-            {userData.currentFat}g / {Math.ceil(userData.goalFat)}g (
-            {calculatePercentage(userData.currentFat, userData.goalFat).toFixed(1)}%)
-          </div>
-        </div>
+{/* Fat Progress */}
+<div className="progress-bar-container">
+  <div className="progress-bar-label">Fat</div>
+  <div className="progress-bar">
+    <div
+      className={`progress-bar-fill ${
+        userData.currentFat > userData.goalFat ? "exceed" : ""
+      }`}
+      style={{ width: `${calculatePercentage(userData.currentFat, userData.goalFat)}%` }}
+    ></div>
+  </div>
+  <div className="progress-text">
+    {userData.currentFat}g / {Math.ceil(userData.goalFat)}g (
+    {calculatePercentage(userData.currentFat, userData.goalFat).toFixed(1)}%)
+  </div>
+</div>
 
-        {/* Carbs Progress */}
-        <div className="progress-bar-container">
-          <div className="progress-bar-label">Carbs</div>
-          <div className="progress-bar">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(userData.currentCarbs, userData.goalCarbs)}%` }}
-            ></div>
-          </div>
-          <div className="progress-text">
-            {userData.currentCarbs}g / {Math.ceil(userData.goalCarbs)}g (
-            {calculatePercentage(userData.currentCarbs, userData.goalCarbs).toFixed(1)}%)
-          </div>
-        </div>
+{/* Carbs Progress */}
+<div className="progress-bar-container">
+  <div className="progress-bar-label">Carbs</div>
+  <div className="progress-bar">
+    <div
+      className={`progress-bar-fill ${
+        userData.currentCarbs > userData.goalCarbs ? "exceed" : ""
+      }`}
+      style={{ width: `${calculatePercentage(userData.currentCarbs, userData.goalCarbs)}%` }}
+    ></div>
+  </div>
+  <div className="progress-text">
+    {userData.currentCarbs}g / {Math.ceil(userData.goalCarbs)}g (
+    {calculatePercentage(userData.currentCarbs, userData.goalCarbs).toFixed(1)}%)
+  </div>
+</div>
       </div>
     </div>
   );
