@@ -64,4 +64,3 @@ def scrape_menu_or_get_cached(date_str, meal_period, dining_hall):
         })
     
     return menu
-j
