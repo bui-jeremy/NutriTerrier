@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
 import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
+  // Set page title in the browser tab
+  useEffect(() => {
+    document.title = "Profile & Goals";
+  }, []);
+
   const [name, setName] = useState(user?.name || '');
   const [email] = useState(user?.email || ''); // Stored in state but read-only
   const [gender, setGender] = useState(user?.gender || '');
@@ -49,7 +54,7 @@ function Settings({ user, setUser, updateUser }) {
 
   return (
     <div className="settings">
-      <h2>Settings</h2>
+      <h2>Profile & Goals</h2>
       <form>
         {/* Name */}
         <label>
