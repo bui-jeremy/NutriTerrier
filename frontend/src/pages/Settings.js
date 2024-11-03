@@ -4,7 +4,7 @@ import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
 import Logout from './authentication/Logout';
 
-function Settings({ user, setUser, updateUser }) {
+function Settings({ user, setUser, updateUser }) { // updateUser now correctly passed
   const [name, setName] = useState(user?.name || '');
   const [email] = useState(user?.email || ''); // Read-only email from user object
   const [gender, setGender] = useState(user?.gender || '');
@@ -13,34 +13,39 @@ function Settings({ user, setUser, updateUser }) {
   const [height, setHeight] = useState(user?.height || '');
   const [activityLevel, setActivityLevel] = useState(user?.activityLevel || '');
   const [goal, setGoal] = useState(user?.goal || '');
-  const [weightChange, setWeightChange] = useState(user?.weightChange || ''); // New state for weight change amount
+  const [weightChange, setWeightChange] = useState(user?.weightChange || ''); 
   const [diningHall, setDiningHall] = useState(user?.diningHall || '');
 
   const handleLogout = () => {
     googleLogout();
     setUser(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
   };
 
   const handleSave = async () => {
     const updatedUser = {
       name,
-      email, // Add email to payload
+      email, 
       age,
       gender,
       weight,
       height,
       activityLevel,
       goal,
-      weightChange, // Include weight change in the payload
+      weightChange,
       diningHall,
     };
 
     try {
-      // Send POST request to backend API
       await axios.post('http://localhost:8000/api/user/settings', updatedUser);
+      
+      // Update local user state and call updateUser to refresh parent component state
       setUser(updatedUser);
-      updateUser(updatedUser); // Optionally update user locally
+      if (updateUser) {
+        updateUser(updatedUser); // Call updateUser only if it’s defined
+      }
+      
       alert('Settings saved successfully!');
     } catch (error) {
       console.error('Error saving settings:', error);
@@ -68,7 +73,7 @@ function Settings({ user, setUser, updateUser }) {
           <input
             type="email"
             value={email}
-            readOnly // Make the email read-only
+            readOnly
           />
         </label>
 
@@ -115,7 +120,7 @@ function Settings({ user, setUser, updateUser }) {
           />
         </label>
 
-        {/* Amount of Weight to Gain/Lose */}
+        {/* Weight Change */}
         <label>
           Amount of Weight to Gain/Lose (kg):
           <input

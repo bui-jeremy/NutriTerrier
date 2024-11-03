@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage';
 import Settings from './pages/Settings';
 import MealGeneration from './pages/MealGeneration';
 import Navbar from './components/Navbar';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Correct import with curly braces
 
 function App() {
   const [user, setUser] = useState(null);
@@ -21,11 +21,20 @@ function App() {
         email: decoded.email,
         picture: decoded.picture,
       });
+      localStorage.setItem('userEmail', decoded.email); // Store email in localStorage after decoding token
     }
   }, []);
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
+  };
+
+  // Define updateUser as a function to pass it to Settings
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    if (updatedUser.email) {
+      localStorage.setItem("userEmail", updatedUser.email); // Update localStorage with the new email
+    }
   };
 
   return (
@@ -41,9 +50,9 @@ function App() {
           <div>
             <Navbar />
             <Routes>
-              <Route path="/" element={showSettings ? <Settings user={user} setUser={setUser} /> : <HomePage />} />
+              <Route path="/" element={<HomePage />} /> {/* Render HomePage only at "/" */}
               <Route path="/mealgeneration" element={<MealGeneration />} />
-              <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
+              <Route path="/settings" element={<Settings user={user} setUser={setUser} updateUser={updateUser} />} />
             </Routes>
           </div>
         )}
@@ -53,3 +62,4 @@ function App() {
 }
 
 export default App;
+
