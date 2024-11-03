@@ -6,7 +6,6 @@ import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
   const [name, setName] = useState(user?.name || '');
-  const [email, setEmail] = useState(user?.email || ''); // Add email state
   const [diningHall, setDiningHall] = useState(user?.diningHall || '');
   const [weight, setWeight] = useState(user?.weight || '');
   const [height, setHeight] = useState(user?.height || '');
@@ -21,7 +20,6 @@ function Settings({ user, setUser, updateUser }) {
   const handleSave = async () => {
     const updatedUser = {
       name,
-      email, // Include email in the saved settings if needed
       diningHall,
       weight,
       height,
@@ -51,16 +49,6 @@ function Settings({ user, setUser, updateUser }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-
-        {/* Email (read-only) */}
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            readOnly // Make the email read-only
           />
         </label>
 
