@@ -72,7 +72,7 @@ function HomePage() {
       <div className="content">
         {/* Personalized Greeting */}
         <div className="greeting">
-          <span style={{ color: "red" }}>{greeting.message}, {userName}</span> 
+          <span style={{ color: "red" }}>{greeting.message}, {userName}!</span> 
           <span className="greeting-icon">{greeting.icon}</span>
         </div>
         <div className="motivational-message" style={{ color: "gray", fontSize: "14px", marginBottom: "20px" }}>
