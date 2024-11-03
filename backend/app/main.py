@@ -4,14 +4,13 @@ from .calculate_macros import get_nutrition_plan
 from .calculate_plan import create_daily_plan
 from datetime import date
 from pymongo import MongoClient
+from datetime import datetime
 from pydantic import BaseModel
 import os
 import logging
 from dotenv import load_dotenv
-
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
-load_dotenv()
 
 app = FastAPI()
 
@@ -32,14 +31,10 @@ app.add_middleware(
 # Define a Pydantic model for user data
 class UserSettings(BaseModel):
     name: str
-    email: str
-    age: int
-    gender: str
+    email: str  # Add email field
+    diningHall: str
     weight: float
     height: float
-    activityLevel: str
-    goal: str
-    diningHall: str
     mealPlan: str
 
 @app.post("/api/user/settings")
@@ -59,6 +54,7 @@ async def save_user_settings(user: UserSettings):
         logging.info(f"Inserted new user settings for {user.email}")
 
     return {"message": "User settings saved successfully"}
+
 
 # Dining hall URLs
 DINING_LOCATIONS = {
