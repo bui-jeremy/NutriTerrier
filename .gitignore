@@ -2,3 +2,4 @@
 /frontend/package-lock.json
 /frontend/package.json
 /frontend/*.json
+*.env
