@@ -47,10 +47,11 @@ function CatalogPage() {
     groups[location].push(item);
     return groups;
   }, {});
+  const [timeOfDay, setTimeOfDay] = useState(getTimeOfDay());
 
   return (
     <div className="catalog-page">
-      <h1>Catalog</h1>
+      <h1>What's on the menu for {timeOfDay}?</h1>
       <div className="catalog-list">
         {Object.keys(groupedItems).map((location) => (
           <div key={location} className="catalog-item-group">
