@@ -1,28 +1,55 @@
-import React from "react";
-import "../App.css"; // Import App.css for the navbar styling
-import "./HomePage.css"; // Import HomePage-specific styles
+import React, { useEffect, useState } from "react";
+import "../App.css";
+import "./HomePage.css";
 
 function HomePage() {
   const currentCalories = 1900;
   const goalCalories = 2500;
-  const currentProtein = 60; // current grams of protein
-  const goalProtein = 100; // goal grams of protein
-  const currentFat = 30; // current grams of fat
-  const goalFat = 70; // goal grams of fat
-  const currentCarbs = 200; // current grams of carbs
-  const goalCarbs = 300; // goal grams of carbs
+  const currentProtein = 60;
+  const goalProtein = 100;
+  const currentFat = 30;
+  const goalFat = 70;
+  const currentCarbs = 150;
+  const goalCarbs = 300;
 
   const calculatePercentage = (current, goal) => (current / goal) * 100;
+
+  // States to control animated progress
+  const [circularProgress, setCircularProgress] = useState(0);
+  const [proteinProgress, setProteinProgress] = useState(0);
+  const [fatProgress, setFatProgress] = useState(0);
+  const [carbsProgress, setCarbsProgress] = useState(0);
+
+  useEffect(() => {
+    // Animate the circular progress for calories
+    const targetCaloriesProgress = calculatePercentage(currentCalories, goalCalories);
+    const interval = setInterval(() => {
+      setCircularProgress((prev) => {
+        if (prev >= targetCaloriesProgress) {
+          clearInterval(interval);
+          return targetCaloriesProgress;
+        }
+        return prev + 0.33; // Adjust the increment to control speed
+      });
+    }, 10); // Adjust the interval to control speed
+
+    // Animate the linear progress for each nutrient
+    setTimeout(() => setProteinProgress(calculatePercentage(currentProtein, goalProtein)), 200);
+    setTimeout(() => setFatProgress(calculatePercentage(currentFat, goalFat)), 400);
+    setTimeout(() => setCarbsProgress(calculatePercentage(currentCarbs, goalCarbs)), 600);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Greeting message based on time of day
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 6 && hour < 12) {
-      return { message: "Good morning!", icon: "☀️" }; // Rising sunshine icon
+      return { message: "Good morning!", icon: "☀️" };
     } else if (hour >= 12 && hour < 18) {
-      return { message: "Good afternoon!", icon: "🌞" }; // Sunshine icon
+      return { message: "Good afternoon!", icon: "🌞" };
     } else {
-      return { message: "Good night!", icon: "🌙" }; // Moon icon
+      return { message: "Good night!", icon: "🌙" };
     }
   };
 
@@ -30,7 +57,6 @@ function HomePage() {
 
   return (
     <div>
-
       <div className="content">
         {/* Greeting Message */}
         <div className="greeting">
@@ -38,19 +64,16 @@ function HomePage() {
           <span className="greeting-icon">{greeting.icon}</span>
         </div>
 
-        {/* User Profile and Circular Progress */}
+        {/* Circular Progress for Calories */}
         <div className="user-profile">
           <div
             className="circular-progress"
             style={{
-              background: `conic-gradient(#FF6347 ${
-                (currentCalories / goalCalories) * 360
-              }deg, #ddd 0deg)`,
+              "--progress": (circularProgress / 100) * 360
             }}
           >
             <span className="calories-text">
-              {currentCalories} / {goalCalories}
-              <br />
+              {currentCalories} / {goalCalories} <br />
               calories
             </span>
           </div>
@@ -62,12 +85,11 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(currentProtein, goalProtein)}%` }}
+              style={{ width: `${proteinProgress}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentProtein}g / {goalProtein}g (
-            {calculatePercentage(currentProtein, goalProtein).toFixed(1)}%)
+            {currentProtein}g / {goalProtein}g ({proteinProgress.toFixed(1)}%)
           </div>
         </div>
 
@@ -77,12 +99,11 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(currentFat, goalFat)}%` }}
+              style={{ width: `${fatProgress}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentFat}g / {goalFat}g (
-            {calculatePercentage(currentFat, goalFat).toFixed(1)}%)
+            {currentFat}g / {goalFat}g ({fatProgress.toFixed(1)}%)
           </div>
         </div>
 
@@ -92,12 +113,11 @@ function HomePage() {
           <div className="progress-bar">
             <div
               className="progress-bar-fill"
-              style={{ width: `${calculatePercentage(currentCarbs, goalCarbs)}%` }}
+              style={{ width: `${carbsProgress}%` }}
             ></div>
           </div>
           <div className="progress-text">
-            {currentCarbs}g / {goalCarbs}g (
-            {calculatePercentage(currentCarbs, goalCarbs).toFixed(1)}%)
+            {currentCarbs}g / {goalCarbs}g ({carbsProgress.toFixed(1)}%)
           </div>
         </div>
 
