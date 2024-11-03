@@ -1,66 +1,51 @@
-// src/pages/Settings.js
 import React, { useState } from 'react';
+import axios from 'axios';
 import { googleLogout } from '@react-oauth/google';
 import './Settings.css';
-
-import Logout from '../pages/authentication/Logout';
+import Logout from './authentication/Logout';
 
 function Settings({ user, setUser, updateUser }) {
-  // State variables for user inputs
   const [name, setName] = useState(user?.name || '');
+  const [email] = useState(user?.email || ''); // Read-only email from user object
   const [gender, setGender] = useState(user?.gender || '');
   const [age, setAge] = useState(user?.age || '');
   const [weight, setWeight] = useState(user?.weight || '');
   const [height, setHeight] = useState(user?.height || '');
   const [activityLevel, setActivityLevel] = useState(user?.activityLevel || '');
   const [goal, setGoal] = useState(user?.goal || '');
-  const [targetWeight, setTargetWeight] = useState(user?.targetWeight || ''); // New target weight field
+  const [weightChange, setWeightChange] = useState(user?.weightChange || ''); // New state for weight change amount
   const [diningHall, setDiningHall] = useState(user?.diningHall || '');
 
   const handleLogout = () => {
     googleLogout();
     setUser(null);
     localStorage.removeItem('token');
-    localStorage.removeItem('userData');
   };
 
-  const handleSave = () => {
-    // Input validation
-    if (!name || !gender || !age || !weight || !height || !activityLevel || !goal || !targetWeight) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    // Additional validation based on API requirements
-    if (age < 1 || age > 80) {
-      alert('Age must be between 1 and 80.');
-      return;
-    }
-    if (weight < 40 || weight > 160) {
-      alert('Weight must be between 40 kg and 160 kg.');
-      return;
-    }
-    if (height < 130 || height > 230) {
-      alert('Height must be between 130 cm and 230 cm.');
-      return;
-    }
-
+  const handleSave = async () => {
     const updatedUser = {
-      ...user,
       name,
-      gender,
+      email, // Add email to payload
       age,
+      gender,
       weight,
       height,
       activityLevel,
       goal,
-      targetWeight, // Include the new field
+      weightChange, // Include weight change in the payload
       diningHall,
     };
 
-    setUser(updatedUser);
-    updateUser(updatedUser); // Updates user data and persists it
-    alert('Settings saved!');
+    try {
+      // Send POST request to backend API
+      await axios.post('http://localhost:8000/api/user/settings', updatedUser);
+      setUser(updatedUser);
+      updateUser(updatedUser); // Optionally update user locally
+      alert('Settings saved successfully!');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      alert('Failed to save settings.');
+    }
   };
 
   return (
@@ -74,6 +59,16 @@ function Settings({ user, setUser, updateUser }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+
+        {/* Email (read-only) */}
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            readOnly // Make the email read-only
           />
         </label>
 
@@ -97,8 +92,6 @@ function Settings({ user, setUser, updateUser }) {
             type="number"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            min="1"
-            max="80"
           />
         </label>
 
@@ -109,8 +102,6 @@ function Settings({ user, setUser, updateUser }) {
             type="number"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
-            min="40"
-            max="160"
           />
         </label>
 
@@ -121,20 +112,16 @@ function Settings({ user, setUser, updateUser }) {
             type="number"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
-            min="130"
-            max="230"
           />
         </label>
 
-        {/* Target Weight */}
+        {/* Amount of Weight to Gain/Lose */}
         <label>
-          Target Weight (kg):
+          Amount of Weight to Gain/Lose (kg):
           <input
             type="number"
-            value={targetWeight}
-            onChange={(e) => setTargetWeight(e.target.value)}
-            min="40"
-            max="160"
+            value={weightChange}
+            onChange={(e) => setWeightChange(e.target.value)}
           />
         </label>
 
@@ -152,9 +139,7 @@ function Settings({ user, setUser, updateUser }) {
             <option value="Daily exercise or intense exercise 3-4 times/week">
               Daily exercise or intense exercise 3-4 times/week
             </option>
-            <option value="Intense exercise 6-7 times/week">
-              Intense exercise 6-7 times/week
-            </option>
+            <option value="Intense exercise 6-7 times/week">Intense exercise 6-7 times/week</option>
             <option value="Very intense exercise daily, or physical job">
               Very intense exercise daily, or physical job
             </option>
