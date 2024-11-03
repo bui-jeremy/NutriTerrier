@@ -15,7 +15,8 @@ function HomePage() {
     const fetchNutritionPlan = async () => {
       try {
         if (userEmail) {
-          const response = await axios.post("http://localhost:8000/run-python", {
+          // Make sure the endpoint is correct
+          const response = await axios.post("http://localhost:8000/api/user/nutrition", {
             email: userEmail  // Send email as an identifier
           });
 

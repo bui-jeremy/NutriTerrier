@@ -76,6 +76,34 @@ async def save_user_settings(user: UserSettings):
 
     return {"message": "User settings saved successfully"}
 
+@app.post("/api/user/nutrition")
+async def get_user_nutrition(request: Request):
+    # Extract email from request body
+    body = await request.json()
+    email = body.get("email")
+
+    if not email:
+        raise HTTPException(status_code=400, detail="Email is required")
+
+    # Query MongoDB for a user document matching the provided email
+    user_data = user_collection.find_one({"email": email})
+
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Extract and format the nutrition data from the found document
+    nutrition_data = {
+        "calories": user_data.get("calories", 0),
+        "macros": {
+            "protein": user_data.get("protein", 0),
+            "carbs": user_data.get("carbs", 0),
+            "fat": user_data.get("fat", 0)
+        }
+    }
+
+    # Return the formatted nutrition data as a JSON response
+    return {"nutrition_plan": nutrition_data}
+
 # Dining hall URLs
 DINING_LOCATIONS = {
     "marciano": "https://www.bu.edu/dining/location/marciano/#menu",
